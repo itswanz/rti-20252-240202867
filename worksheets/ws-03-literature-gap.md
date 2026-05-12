@@ -77,39 +77,35 @@ Membandingkan deep learning 2024 dengan decision tree sederhana tanpa justifikas
 ```
 LITERATURE MAPPING
 
-Topik      : ____________________
-Database   : ____________________
-Query      : ____________________
-Tahun      : ____________________
-Hasil awal : ____ paper → Screening → ____ paper final
+Topik      : Optimization of Integrated Graphics (iGPU) for Real-Time Gaming Performance
+Database   : Google Scholar, ResearchGate, arXiv.
+Query      : ("iGPU" OR "Integrated Graphics") AND ("undervolting" OR "overclocking") AND ("gaming performance" OR "frame time stability")
+Tahun      : 2020 – 2026
+Hasil awal : 45 paper → Screening → 5 paper final
 
 Literature Matrix (concept-centric):
 
 | Study | Tahun | Method | Data | Result | Limitation |
 |-------|-------|--------|------|--------|------------|
-|       |       |        |      |        |            |
+|Kumar et al | 2021  |  Undervolting CPU      |   Laptop Ryzen 5   |  Suhu turun 10°C      |   tidak mengukur stabilitas frame time game          |
 
 Pola yang ditemukan:
-  Metode dominan     : ____________________
-  Dataset umum       : ____________________
-  Limitasi berulang  : ____________________
+  Metode dominan     : Modifikasi fisik (thermal paste) dan Overclocking RAM
+  Dataset umum       : Benchmark sintetis (3DMark) dan game AAA
+  Limitasi berulang  : Jarang ada yang fokus pada stabilitas frame time (1% low) melalui kombinasi undervolting pada iGPU kelas menengah
 
 GAP IDENTIFICATION
 
 Gap 1: [Jenis: performance / method / data / context]
-  Deskripsi    : ____________________
-  Bukti        : ____________________
-  Signifikansi : ____________________
+  Deskripsi    : Kurangnya studi yang menguji efektivitas undervolting manual pada driver terbaru (2025/2026) untuk menjaga konsistensi frame time pada game kompetitif
+  Bukti        : Kebanyakan paper (Kumar, Smith) hanya fokus pada FPS rata-rata (average), bukan kemulusan (stutter-free)
+  Signifikansi : Penting bagi gamer kompetitif karena stuttering lebih mengganggu daripada FPS rendah.
 
-Gap 2: [Jenis: ____]
-  Deskripsi    : ____________________
-  Bukti        : ____________________
-  Signifikansi : ____________________
 
 Baseline Selection:
 | Baseline | Relevansi | Representatif | Source |
-|----------|-----------|---------------|--------|
-|          |           |               |        |
+|Pengaturan Stock/Default|Sebagai kontrol awa|Kondisi asli semua pengguna|Vendor Manual|
+|Auto-Overclock (Ryzen Master)|Solusi instan dari vendor|Fitur paling umum dipakai user|AMD Doc 2024
 ```
 
 ---
