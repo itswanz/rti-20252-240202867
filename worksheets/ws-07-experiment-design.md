@@ -68,36 +68,36 @@ Ancaman validitas harus diidentifikasi **sebelum** eksperimen dan mitigasinya di
 ```
 EXPERIMENT DESIGN
 
-Research Question : ____________________
-Hypothesis        : ____________________
-Tipe Eksperimen   : [ ] Comparison  [ ] Ablation  [ ] Parameter
+Research Question :"Apakah penerapan profil undervolting -25mV pada SoC iGPU Radeon Vega 7 menghasilkan nilai 1% low FPS yang lebih stabil dibandingkan dengan pengaturan Stock pada game Valorant?
+Hypothesis        :Profil undervolting menghasilkan peningkatan nilai 1% low FPS $\ge$ 10% dibanding pengaturan stock
+Tipe Eksperimen   : [x] Comparison  [ ] Ablation  [ ] Parameter
 
 Kondisi Eksperimen:
 | Kondisi | Deskripsi | IV Value | CV Settings |
 |---------|-----------|----------|-------------|
-| Control |           |          |             |
-| Treatment |         |          |             |
+| Control | Pengaturan pabrik (Default) |Stock Voltage (0mV offset)| Low Settings, Ascent Map, 31°C Ambient|
+| Treatment |Pengaturan Optimasi|Undervolt (-25mV offset) |Low Settings, Ascent Map, 31°C Ambient|
 
 Fairness Checklist:
-  [ ] Dataset identik untuk semua kondisi
-  [ ] Preprocessing setara
-  [ ] Tuning effort setara
-  [ ] Environment identik
-  [ ] Metrik evaluasi sama
+  [x] Dataset identik untuk semua kondisi
+  [x] Preprocessing setara
+  [x] Tuning effort setara
+  [x] Environment identik
+  [x] Metrik evaluasi sama
 
 Threat Analysis:
 | Threat Type | Ancaman Spesifik | Mitigasi |
 |-------------|-----------------|----------|
-| Internal    |                 |          |
-| External    |                 |          |
-| Construct   |                 |          |
-| Conclusion  |                 |          |
+| Internal    |Background process Windows (Update/Antivirus) tiba-tiba aktif.|Mematikan koneksi internet dan layanan non-esensial sebelum pengujian|
+| External    |Hasil hanya berlaku untuk Radeon Vega 7, mungkin berbeda di iGPU Intel. | Mengakui batasan riset (scope) hanya pada arsitektur Zen 3 APU.|
+| Construct   |Metrik Average FPS tidak menangkap micro-stuttering|Menggunakan 1% Low FPS dan Frame Time graph sebagai metrik utama.|
+| Conclusion  |Variasi tiap sesi game (jumlah musuh berbeda)|Melakukan repetisi 5 kali dan mengambil nilai rata-rata (Mean)|
 
 Statistical Plan:
-  Uji statistik   : ____________________
-  Justifikasi      : ____________________
-  Alpha            : ____________________
-  Effect size min  : ____________________
+  Uji statistik   : Independent Samples T-Test.
+  Justifikasi      :Membandingkan rata-rata dari dua kelompok independen (Stock vs UV)
+  Alpha            :0.05 (Tingkat kepercayaan 95%).
+  Effect size min  :Cohen's d > 0.5$.
 ```
 
 ---
@@ -111,8 +111,8 @@ Susun desain eksperimen berdasarkan RQ, variabel, dan sistem dari WS-04 sampai W
 
 | Kondisi | Deskripsi | IV Value | CV Settings |
 |---------|-----------|----------|-------------|
-| Control | *Contoh: RF baseline dari literatur* | *RF* | *Dataset X, 80:20 split, seed 42* |
-| Treatment | | | |
+| Control | Profil daya seimbang (Balanced) | Stock Voltage |RAM 3200MHz, Driver 24.3.1 |
+| Treatment |Profil daya optimasi|Undervolt -25mV|RAM 3200MHz, Driver 24.3.1 |
 
 ---
 
@@ -122,13 +122,13 @@ Evaluasi apakah desain eksperimen di Latihan 1 sudah fair.
 
 | Kriteria | Status | Detail |
 |----------|--------|--------|
-| Dataset identik | *Contoh: ✅ — sama-sama pakai CIC-MalMem-2022* | |
-| Preprocessing setara | | |
-| Tuning effort setara | | |
-| Environment identik | | |
-| Metrik evaluasi sama | | |
+| Dataset identik | *Contoh: ✅ | Skenario game yang dimainkan identik (Map Ascent).|
+| Preprocessing setara | ✅ |Tidak ada perubahan setting game di tengah jalan |
+| Tuning effort setara |✅  | Keduanya diuji dalam kondisi baterai penuh (AC plugged in)|
+| Environment identik |✅  |Lokasi pengujian sama, jam pengujian sama (mencegah fluktuasi suhu) |
+| Metrik evaluasi sama |✅  | Keduanya menggunakan output CapFrameX yang sama|
 
-**Ada yang tidak fair?** [ ] Ya / [ ] Tidak
+**Ada yang tidak fair?** [ ] Ya / [x] Tidak
 > Jika ya, bagaimana cara memperbaikinya? ________________
 
 ---
@@ -139,14 +139,14 @@ Identifikasi ancaman validitas untuk desain eksperimen ini.
 
 | Threat Type | Ancaman Spesifik | Mitigasi |
 |-------------|-----------------|----------|
-| Internal | *Contoh: Data leakage antara train-test* | *Contoh: Gunakan stratified split, validasi tidak ada overlap* |
-| External | | |
-| Construct | | |
-| Conclusion | | |
+| Internal | Fluktuasi suhu ruangan (Kebumen siang hari panas). | Pengujian dilakukan berurutan secara cepat dan dipantau termometer.|
+| External |Game update (patch baru) mengubah performa.|Melakukan seluruh sesi eksperimen dalam satu hari yang sama |
+| Construct |Sensor software tidak akurat dibanding hardware. |Menggunakan polling rate sensor tertinggi (20ms) |
+| Conclusion |Sample size kecil (hanya 5 kali lari).|Menghitung standar deviasi untuk melihat konsistensi data|
 
-**Ancaman mana yang paling sulit dimitigasi?** _____________
+**Ancaman mana yang paling sulit dimitigasi?** External (Game Updates)
 **Mengapa?**
-> ___________________________________________________
+>Game kompetitif seperti Valorant sering melakukan update kecil yang bisa mengubah cara CPU/GPU menangani render. Jika ada update di tengah eksperimen, data sebelumnya bisa tidak valid
 
 ---
 
@@ -155,6 +155,6 @@ Identifikasi ancaman validitas untuk desain eksperimen ini.
 > Sebuah paper melaporkan "metode kami mengalahkan semua baseline." Apa 3 pertanyaan pertama yang harus diajukan untuk mengevaluasi klaim ini?
 
 **Jawaban:**
-1. ___________________________________________________
-2. ___________________________________________________
-3. ___________________________________________________
+1.Apakah baselinenya sudah diatur dengan konfigurasi optimal (best-effort) atau hanya menggunakan pengaturan default yang lemah?" (Fairness Check)_
+2. Apakah environment pengujian (hardware, software version, dataset) identik untuk semua metode?" (Internal Validity)
+3. Bagaimana signifikansi statistiknya? Apakah peningkatannya nyata atau hanya fluktuasi margin of error?" (Conclusion Validity)
