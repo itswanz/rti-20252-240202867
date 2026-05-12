@@ -67,34 +67,33 @@ Jika rantai ini tidak lengkap, RQ belum mature. Bi-directional: RQ yang tidak bi
 ```
 RQ-CONTRIBUTION-HYPOTHESIS
 
-Gap Statement  : ____________________
+Gap Statement  : Kurangnya studi mengenai efektivitas kombinasi undervolting manual dan memory profile terhadap kestabilan frame time (1% low FPS) pada iGPU Radeon Vega 7 dalam kondisi suhu lingkungan tinggi (>30°C
 
 Research Question:
-  Tipe         : [ ] Comparison  [ ] Improvement  [ ] Exploratory
-  Formulasi    : ____________________
-  Variabel IV  : ____________________
-  Variabel DV  : ____________________
-  Metrik       : ____________________
-  Dataset      : ____________________
-  Baseline     : ____________________
+  Tipe         : [ ] Comparison  [x] Improvement  [ ] Exploratory
+  Formulasi    :Apakah penerapan profil undervolting -25mV pada SoC iGPU Radeon Vega 7 menghasilkan nilai 1% low FPS yang lebih stabil (standar deviasi lebih rendah) dibandingkan dengan pengaturan Auto-Clock pada game Valorant di lingkungan suhu >30°C?
+  Variabel IV  : Profil tegangan iGPU (Stock vs Undervolt -25mV)
+  Variabel DV  : Stabilitas frame time dan suhu kerja
+  Metrik       : 1% Low FPS (FPS) dan Standard Deviation dari Frame Time (ms)
+  Dataset      : Game Valorant (Map Ascent, durasi 10 menit Deathmatch
+  Baseline     : Pengaturan Default pabrik (Stock)
 
 Quality Check RQ:
   [ ] Variabel spesifik
   [ ] Metrik jelas
-  [ ] Baseline ada
+  [x] Baseline ada
   [ ] Konteks disebutkan
   [ ] Memerlukan eksperimen (bukan hanya survei literatur)
 
 Contribution Statement:
-  Apa yang baru diketahui : ____________________
-  Jenis kontribusi        : [ ] Improvement  [ ] Comparison  [ ] Novel approach
-  Gap yang diisi          : ____________________
-
+  Apa yang baru diketahui : Pengaruh presisi dari penurunan voltase terhadap konsistensi performa iGPU pada suhu tropis
+  Jenis kontribusi        : [x] Improvement  [ ] Comparison  [ ] Novel approach
+  Gap yang diisi          : Mengatasi performance gap (stuttering) akibat panas berlebih pada hardware entry-leve
 Hypothesis Pair:
-  H₀ : ____________________
-  H₁ : ____________________
-  Threshold              : ____________________
-  Justifikasi threshold  : ____________________
+  H₀ : Tidak ada perbedaan signifikan pada nilai 1% low FPS antara profil undervolting dan pengaturan stock
+  H₁ : Profil undervolting menghasilkan peningkatan nilai 1% low FPS minimal sebesar 10% dibanding pengaturan stock
+  Threshold              :  Peningkatan 10% pada metrik 1% low FPS
+  Justifikasi threshold  : Angka 10% adalah batas minimal perbedaan yang dapat dirasakan secara visual (perceptible) oleh pemain game kompetitif
 ```
 
 ---
@@ -103,19 +102,19 @@ Hypothesis Pair:
 
 Gunakan gap yang ditemukan di WS-03. Transformasikan menjadi Research Question.
 
-**Gap dari WS-03:** ____________________________________
+**Gap dari WS-03:** Kurangnya data pengujian stabilitas frame time pada iGPU Ryzen di suhu ruangan non-AC
 
 **RQ versi pertama (tulis bebas):**
-> ___________________________________________________
+>Bagaimana pengaruh modifikasi kurva voltase terhadap konsistensi frame time iGPU Radeon Vega 7 saat menjalankan beban kerja game kompetitif di suhu lingkungan 30-33°C?
 
 **Evaluasi RQ:**
 
 | Komponen | Ada? | Isi |
 |----------|------|-----|
-| Metode spesifik | *Contoh: Ya — CNN vs RF* | |
-| Metrik terukur | | |
-| Baseline | | |
-| Dataset/konteks | | |
+| Metode spesifik | Tidak ada perbedaan signifikan pada nilai 1% low FPS antara profil undervolting dan pengaturan stock|
+| Metrik terukur | Profil undervolting menghasilkan peningkatan nilai 1% low FPS minimal sebesar 10% dibanding pengaturan stock |
+| Baseline | |Peningkatan  10% pada metrik 1% low FPS |
+| Dataset/konteks | |Angka 10% adalah batas minimal perbedaan yang dapat dirasakan secara visual (perceptible) oleh pemain game kompetitif |
 
 **Tipe RQ:** [ ] Comparison / [ ] Improvement / [ ] Exploratory
 
@@ -130,13 +129,13 @@ Rumuskan pasangan hipotesis dari RQ di Latihan 1.
 
 | Komponen | Isi |
 |----------|-----|
-| H₀ | *Contoh: Tidak ada perbedaan signifikan F1-Score antara CNN dan RF pada dataset CIC-MalMem-2022* |
-| H₁ | |
-| Metrik | |
-| Threshold | |
-| Justifikasi threshold | |
+| H₀ | Modifikasi voltase tidak menurunkan frekuensi stuttering (frame time spike) |
+| H₁ |Modifikasi voltase menurunkan frekuensi frame time spike secara signifikan |
+| Metrik |Frame time variance (ms)|
+| Threshold |Penurunan varians  15% |
 
-**Apakah hipotesis ini falsifiable?** [ ] Ya / [ ] Tidak
+
+**Apakah hipotesis ini falsifiable?** [x] Ya / [ ] Tidak
 > Bagaimana cara membuktikannya salah? ___________________
 
 ---
@@ -147,12 +146,12 @@ Lengkapi rantai dari RQ hingga metode analisis.
 
 | Tahap | Isi |
 |-------|-----|
-| RQ | *Contoh: Apakah CNN menghasilkan F1-Score lebih tinggi dari RF...* |
-| Variable (IV) | *Contoh: Jenis algoritma (CNN vs RF)* |
-| Variable (DV) | |
-| Metric | |
-| Data source | |
-| Analysis method | |
+| RQ |Apakah undervolting meningkatkan stabilitas 1% low FPS? |
+| Variable (IV) | Tegangan SoC iGPU (Volt |
+| Variable (DV) |1% Low FPS |
+| Metric |Frames per second (FPS) |
+| Data source |Log dari software MSI Afterburner / CapFrameX |
+| Analysis method |Comparative Analysis (T-test) antara data Stock vs Undervolt |
 
 **Apakah rantai lengkap?** [ ] Ya / [ ] Tidak
 > Jika tidak, tahap mana yang perlu direvisi? ______________
@@ -163,6 +162,6 @@ Lengkapi rantai dari RQ hingga metode analisis.
 
 > Ambil satu judul skripsi/paper yang pernah dibaca. Coba ekstrak RQ-nya. Apakah RQ tersebut memenuhi semua komponen (metode, metrik, baseline, konteks)? Jika tidak, apa yang hilang?
 
-**Judul:** _____________________________________________
-**RQ yang diekstrak:** __________________________________
-**Komponen yang hilang:** _______________________________
+**Judul:** Performance Optimization of Integrated Graphics in Competitive Gaming
+**RQ yang diekstrak:**Dapatkan overclocking RAM meningkatkan FPS?
+**Komponen yang hilang:**Tidak menyebutkan Metode overclocking secara spesifik (XMP atau Manual), tidak menyebutkan Dataset/Game yang digunakan, dan tidak menyebutkan Baseline pembandingnya_
