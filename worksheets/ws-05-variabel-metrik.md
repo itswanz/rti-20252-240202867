@@ -66,19 +66,19 @@ Metrik harus ditentukan **sebelum** eksperimen. Memilih metrik setelah melihat d
 ```
 VARIABLE & METRIC DEFINITION
 
-Research Question: ____________________
+Research Question:Apakah penerapan profil undervolting -25mV pada SoC iGPU Radeon Vega 7 menghasilkan nilai 1% low FPS yang lebih stabil dibandingkan dengan pengaturan Stock pada game Valorant?
 
 | Variabel | Tipe | Konsep | Metrik | Skala | Satuan | Cara Mengukur | Justifikasi |
 |----------|------|--------|--------|-------|--------|---------------|-------------|
-|          | IV   |        |        |       |        |               |             |
-|          | DV   |        |        |       |        |               |             |
-|          | CV   |        |        |       |        |               |             |
+|Tegangan SoC| IV   | Konfigurasi Daya |Voltase Profil|Nominal|mV|Software AMD Adrenalin|Membedakan kelompok uji (Stock vs UV)|
+|Stabilitas Performa| DV   | Konsistensi Frame|1% Low FPS|Ratio|FPS |CapFrameX / Afterburner|1% Low lebih sensitif terhadap stutter dibanding rata-rata|
+|Suhu Lingkungan| CV   |Kondisi Eksternal|Ambient Temp|Interval|°C| Termometer Ruangan |Memastikan pengaruh suhu luar tetap konstan (30°C)|
 
 Alignment Check:
   RQ → Concept → Variable → Metric → Data → Result
-  [ ] Setiap langkah terdokumentasi
-  [ ] Tidak ada "lompatan logis"
-  [ ] Metrik mengukur apa yang dimaksud (construct validity)
+  [x] Setiap langkah terdokumentasi
+  [x] Tidak ada "lompatan logis"
+  [x] Metrik mengukur apa yang dimaksud (construct validity)
 ```
 
 ---
@@ -87,15 +87,15 @@ Alignment Check:
 
 Gunakan RQ dari WS-04. Definisikan variabel dan metriknya.
 
-**RQ:** __________________________________________________
+**RQ:**Pengaruh undervolting terhadap stabilitas 1% Low FPS pada iGPU
 
 | Variabel | Tipe | Konsep Abstrak | Metrik Konkret | Skala (NOIR) | Satuan |
 |----------|------|---------------|----------------|-------------|--------|
-| *Contoh: Jenis model* | *IV* | *Pendekatan klasifikasi* | *Categorical: CNN vs RF* | *Nominal* | *—* |
-| | DV | | | | |
-| | CV | | | | |
+| Profil Tegangan | *IV* |Efisiensi Daya | Voltase (-25mV vs 0) | Nominal | mV |
+|Profil Tegangan| DV |Kenyamanan Visual|1% Low FPS|ratio|fps|
+|beban kerja| CV |konsistensi uji |Durasi dam Skenario|ratio|detik|
 
-**Apakah ada lompatan logis dalam rantai?** [ ] Ya / [ ] Tidak
+**Apakah ada lompatan logis dalam rantai?** [ ] Ya / [x] Tidak
 > Jika ya, di mana? ____________________________________
 
 ---
@@ -106,12 +106,12 @@ Evaluasi metrik DV yang dipilih di Latihan 1 menggunakan 3 kriteria.
 
 | Kriteria | Skor (1-5) | Justifikasi |
 |----------|-----------|-------------|
-| Representative | *Contoh: 4 — F1-Score mewakili keseimbangan precision-recall* | |
-| Sensitive | | |
-| Feasible | | |
+| Representative | 5  |Sangat mewakili konsep "mulus" karena menangkap drop FPS terjauh |
+| Sensitive |5|Sangat peka; undervolting biasanya langsung berdampak pada frame time |
+| Feasible |5|Mudah diambil menggunakan software gratis (CapFrameX |
 
-**Apakah perlu secondary metric?** [ ] Ya / [ ] Tidak
-> Jika ya, apa dan mengapa? _____________________________
+**Apakah perlu secondary metric?** [x] Ya / [ ] Tidak
+> Jika ya, apa dan mengapa?Average FPS dan Max Temperature, untuk memastikan bahwa undervolting tidak menurunkan performa puncak secara drastis sambil tetap menekan panas
 
 **Contoh kasus ceiling effect untuk metrik ini:**
 > ___________________________________________________
@@ -124,10 +124,10 @@ Bayangkan data yang akan dikumpulkan dari eksperimen. Evaluasi 4 dimensi kualita
 
 | Dimensi | Pertanyaan | Jawaban | Strategi Mitigasi |
 |---------|-----------|---------|------------------|
-| Completeness | *Apakah semua data point terkumpul?* | | |
-| Consistency | *Apakah ada kontradiksi internal?* | | |
-| Validity | *Apakah benar-benar mengukur yang dimaksud?* | | |
-| Representativeness | *Apakah sampel mewakili populasi target?* | | |
+| Completeness | Apakah semua data point terkumpul? |Ya, log per detik.| Mengulang sesi jika software log crash.|
+| Consistency | Apakah ada kontradiksi internal? | Mungkin suhu naik tapi FPS tetap| Cek apakah ada background process Windows Update|
+| Validity |Apakah benar-benar mengukur yang dimaksud? |Ya, 1% low = stutter | Kalibrasi software sebelum pengambilan data.|
+| Representativeness | Apakah sampel mewakili populasi? | mewakili populasi?	Ya, untuk user iGPU Ryzen|Melakukan pengujian minimal 5 kali repetisi|
 
 ---
 
@@ -136,5 +136,5 @@ Bayangkan data yang akan dikumpulkan dari eksperimen. Evaluasi 4 dimensi kualita
 > Mengapa memilih metrik setelah melihat data dianggap p-hacking? Apa bedanya dengan eksplorasi data yang sah?
 
 **Jawaban:**
-> ___________________________________________________
+>Memilih metrik setelah melihat data dianggap p-hacking karena peneliti cenderung memilih metrik yang hanya menunjukkan hasil positif/signifikan saja, sehingga membiaskan kebenaran ilmiah. Bedanya dengan eksplorasi data yang sah adalah: Eksplorasi bertujuan untuk mencari pola baru untuk penelitian di masa depan, sedangkan Confirmatory (metrik yang dipre-registrasi) bertujuan untuk menguji hipotesis yang sudah dibuat secara jujur tanpa memanipulasi parameter keberhasilan
 > ___________________________________________________
