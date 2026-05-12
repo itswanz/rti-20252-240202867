@@ -85,20 +85,20 @@ Research Question: ____________________
 Variable → Component Mapping:
 | Variabel | Tipe | Komponen Sistem | Cara Manipulasi/Pengukuran |
 |----------|------|-----------------|---------------------------|
-|          | IV   |                 |                           |
-|          | DV   |                 |                           |
-|          | CV   |                 |                           |
+|Tegangan SoC | IV   |Power Tuning Module (AMD Adrenalin/Afterburner) |Mengubah Voltage Offset (-25mV vs 0mV)|
+|Stabilitas Performa| DV   |Metrics Logger (CapFrameX / MSI Afterburner)|Pencatatan otomatis frame time setiap 1ms|
+|Beban Kerja Game| CV   |Scenario Controller (Custom Game Profile)|Mengunci setting grafis (Low), Map (Ascent), dan durasi (10 menit) |
 
 4 Prinsip Desain:
-  [ ] Traceability — Setiap komponen bisa ditelusuri ke variabel
-  [ ] Variable Isolation — IV bisa diubah tanpa mengubah CV
-  [ ] Measurement Integration — Pengukuran DV built-in
-  [ ] Reproducibility — Setup bisa direkonstruksi
+  [x] Traceability — Setiap komponen bisa ditelusuri ke variabel
+  [x] Variable Isolation — IV bisa diubah tanpa mengubah CV
+  [x] Measurement Integration — Pengukuran DV built-in
+  [x] Reproducibility — Setup bisa direkonstruksi
 
 Experimental Setup:
-  Input data     : ____________________
-  Parameter      : ____________________
-  Output format  : ____________________
+  Input data     :Skenario Deathmatch Valorant (Map Ascent
+  Parameter      : Driver AMD v24.3.1, RAM 16GB Dual Channel, Ambient Temp 31°C
+  Output format  : File CSV berisi log frame time dan suhu
 ```
 
 ---
@@ -111,11 +111,11 @@ Gunakan RQ dan variabel dari WS-05. Petakan ke komponen sistem.
 
 | Variabel | Tipe | Komponen Sistem | Cara Manipulasi / Pengukuran |
 |----------|------|-----------------|---------------------------|
-| *Contoh: Jenis model* | *IV* | *Modul classifier (swap RF ↔ CNN)* | *Ganti config `model_type`* |
-| | DV | | |
-| | CV | | |
+| Voltase SoC | *IV* | AMD Adrenalin Performance Tab| Ganti profil manual voltage_offset|
+|1% Low FPS | DV |CapFrameX Analysis Tool|Kalkulasi otomatis dari distribusi frame time|
+|Suhu Kerja| CV |HWInfo64 Monitoring|Pembacaan sensor dioda SoC iGPU|
 
-**Apakah semua variabel bisa di-map?** [ ] Ya / [ ] Tidak
+**Apakah semua variabel bisa di-map?** [x] Ya / [ ] Tidak
 > Jika tidak, komponen apa yang perlu ditambahkan? _________
 
 ---
@@ -126,14 +126,14 @@ Evaluasi desain sistem terhadap 4 prinsip.
 
 | Prinsip | Status | Bukti / Penjelasan |
 |---------|--------|-------------------|
-| Traceability | *Contoh: ✅ — setiap modul punya label variabel* | |
-| Modularity | | |
-| Controllability | | |
-| Measurability | | |
+| Traceability |  ✅  |Voltase dikontrol lewat Adrenalin, hasil diukur lewat CapFrameX|
+| Modularity | ✅|Software tuning terpisah dari software pengukur (logger). |
+| Controllability | ✅|Setting game dikunci di file GameUserSettings.ini|
+| Measurability | ✅| CapFrameX menyediakan metrik presisi hingga milidetik.|
 
-**Prinsip mana yang paling sulit dipenuhi?** _______________
+**Prinsip mana yang paling sulit dipenuhi?**Controllability
 **Strategi untuk mengatasinya:**
-> ___________________________________________________
+> Menggunakan mode "Practice" atau "Deathmatch" yang variabel musuhnya lebih acak, namun tetap konsisten dalam durasi dan beban grafis
 
 ---
 
@@ -146,14 +146,14 @@ Jika sistem memiliki 3 komponen utama, rencanakan ablation study.
 
 | Kondisi | Komponen A | Komponen B | Komponen C | Hasil yang Diharapkan |
 |---------|-----------|-----------|-----------|----------------------|
-| Full | *Contoh: ✅ CNN* | *Contoh: ✅ Temporal features* | *Contoh: ✅ Z-score norm* | *Baseline penuh* |
-| – A | ❌ (ganti RF) | ✅ | ✅ | |
-| – B | ✅ | ❌ (tanpa temporal) | ✅ | |
-| – C | ✅ | ✅ | ❌ (tanpa normalisasi) | |
+| Full | ✅ undervolt| ✅ xmp provile | ✅ Aggressive Curve | Performa paling stabil & dingin |
+| – A | ❌ Stock Volt) | ✅ | ✅ |Suhu naik, kemungkinan throttling|
+| – B | ✅ | ❌ Stock (2133MHz) | ✅ |FPS rata-rata turun drastis |
+| – C | ✅ | ✅ | ❌ Default/Quiet |Suhu naik, kipas lambat |
 
-**Komponen mana yang diprediksi paling berkontribusi?** _____
+**Komponen mana yang diprediksi paling berkontribusi?** Komponen B (RAM)
 **Mengapa?**
-> ___________________________________________________
+> Karena iGPU sangat bergantung pada memory bandwidth. Namun, Komponen A diprediksi paling berkontribusi pada stabilitas (mengurangi stutter)
 
 ---
 
@@ -162,5 +162,6 @@ Jika sistem memiliki 3 komponen utama, rencanakan ablation study.
 > Apa risiko jika sistem dibangun seperti produk (monolitik, fitur lengkap) lalu baru dilakukan eksperimen? Mengapa arsitektur modular penting untuk riset?
 
 **Jawaban:**
-> ___________________________________________________
-> ___________________________________________________
+Risiko jika sistem dibangun sebagai "produk" monolitik adalah kita tidak bisa mengisolasi penyebab perubahan hasil. Jika sistem tiba-tiba kencang, kita tidak tahu apakah itu karena algoritma A, konfigurasi B, atau sekadar keberuntungan.
+
+Arsitektur modular sangat penting karena memungkinkan peneliti untuk melakukan Variable Isolation. Kita bisa menukar satu komponen (IV) sementara komponen lainnya (CV) tetap diam, sehingga kita yakin bahwa perubahan output (DV) benar-benar disebabkan oleh manipulasi yang kita lakukan, bukan karena noise dari fitur lain
