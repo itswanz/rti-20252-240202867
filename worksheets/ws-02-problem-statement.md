@@ -67,23 +67,22 @@ Masalah riset yang layak harus memenuhi 5 kriteria:
 PROBLEM STATEMENT BUILDER
 
 Domain & Konteks
-  Domain   : ____________________
-  Konteks  : ____________________
-
+  Domain   : Hardware & Performance Optimization
+  Konteks  : Penggunaan Integrated Graphics (iGPU) pada prosesor Ryzen untuk game kompetitif
 System Context
-  Input       : ____________________
-  Process     : ____________________
-  Output      : ____________________
-  Outcome     : ____________________
-  Constraints : ____________________
-  Stakeholders: ____________________
+  Input       : Clock speed GPU, Shared Memory (VRAM), dan Voltage
+  Process     : Alokasi resource sistem oleh driver grafis saat menjalankan beban kerja real-time.
+  Output      : Frame rate (FPS) dan Temperature.
+  Outcome     : Pengalaman bermain game yang stabil tanpa stuttering
+  Constraints : Batas suhu operasional (thermal limit) dan keterbatasan bandwith memori sistem
+  Stakeholders: Gamer dengan budget terbatas (PC tanpa diskrit GPU)
 
 Fenomena → Problem
-  Fenomena yang diamati             : ____________________
-  Gejala (symptom) yang terukur     : ____________________
-  Masalah yang didiagnosis          : ____________________
-  Masalah riset (researchable)      : ____________________
-  Variabel yang terukur             : ____________________
+  Fenomena yang diamati             : iGPU sering mengalami penurunan performa setelah dimainkan selama 1 jam
+  Gejala (symptom) yang terukur     : FPS drop dari 100 ke 40 secara tiba-tiba (thermal throttling)
+  Masalah yang didiagnosis          : Pengaturan voltase default pabrik terlalu tinggi, menyebabkan panas berlebih pada SoC
+  Masalah riset (researchable)      : Sejauh mana teknik undervolting dapat menstabilkan frame time tanpa mengurangi peak performance
+  Variabel yang terukur             : Nilai 1% low FPS dan suhu derajat Celcius
 
 Problem Quality Check
   [ ] Clarity — Apakah satu orang membaca akan paham?
@@ -102,17 +101,16 @@ Problem Statement (1 paragraf):
 
 Pilih satu topik di bidang TI yang diminati. Transformasikan melalui 5 tahap Problem Formation Model.
 
-**Topik awal:** ________________________________________
-
+**Topik awal:** Optimasi Performa iGPU Ryzen untuk Gaming
 | Tahap | Hasil |
 |-------|-------|
-| Reality | *Contoh: Aplikasi e-commerce sering ditinggalkan saat checkout* |
-| Observed Issue (Symptom) | *Contoh: Bounce rate checkout 68%* |
-| Diagnosed Problem (Root Cause) | |
-| Researchable Problem | |
-| Measurable Variable | |
+| Reality | Banyak mahasiswa IT menggunakan laptop/PC iGPU untuk kuliah sekaligus gaming |
+| Observed Issue (Symptom) | Game terasa patah-patah (stuttering) setelah beberapa menit dimainkan |
+| Diagnosed Problem (Root Cause) |Suhu mencapai 85°C sehingga sistem menurunkan clock speed secara otomatis |
+| Researchable Problem |Perbandingan efektivitas profil undervolting manual vs auto-overclock vendor |
+| Measurable Variable |Suhu (°C), Clock Speed (MHz), dan Frame Time (ms) |
 
-**Apakah terjebak solution-first thinking?** [ ] Ya / [ ] Tidak
+**Apakah terjebak solution-first thinking?** [ ] Ya / [x] Tidak
 > Jika ya, kembali ke tahap mana? ________________________
 
 ---
@@ -123,12 +121,12 @@ Gambarkan konteks sistem dari masalah riset di Latihan 1.
 
 | Komponen | Deskripsi |
 |----------|----------|
-| Input | *Contoh: Request HTTP dari browser pengguna* |
-| Process | |
-| Output | |
-| Outcome | |
-| Constraints | |
-| Stakeholders | |
+| Input | Preset kualitas grafis game dan profil daya sistem |
+| Process |Rendering objek 3D oleh Radeon Vega 7|
+| Output |Tampilan visual di monitor dan log performa |
+| Outcome | Kelancaran bermain (tidak ada input lag)|
+| Constraints |Kecepatan RAM (DDR4/DDR5) yang membatasi performa iGPU |
+| Stakeholders |Mahasiswa, Gamer Kompetitif, Teknisi PC |
 
 **Komponen mana yang paling relevan dengan masalah riset?** _______________
 
@@ -140,13 +138,13 @@ Evaluasi problem statement yang sudah dibuat menggunakan 5 kriteria.
 
 | Kriteria | Skor (1-5) | Justifikasi |
 |----------|-----------|-------------|
-| Clarity | *Contoh: 4 — cukup jelas tapi perlu spesifikasi dataset* | |
-| Measurability | | |
-| Relevance | | |
-| Testability | | |
-| Impact | | |
+| Clarity | 5 | Fokus jelas: mengatasi panas untuk stabilitas FPS|
+| Measurability |5 | Suhu dan FPS adalah angka yang pasti|
+| Relevance |4 |Sangat relevan bagi pengguna hardware budget |
+| Testability | 4| Sangat bisa gagal jika undervolting justru membuat sistem crash|
+| Impact |4|Memberikan panduan optimasi bagi pengguna iGPU|
 
-**Skor total:** _____ / 25
+**Skor total:** 23 / 25
 
 **Problem statement versi final (1 paragraf):**
 > ___________________________________________________
@@ -159,5 +157,4 @@ Evaluasi problem statement yang sudah dibuat menggunakan 5 kriteria.
 > Bandingkan "masalah" yang biasa ditemui saat coding (bug, error) dengan masalah riset. Apa perbedaan fundamental dalam cara mendefinisikan dan mendekati keduanya?
 
 **Jawaban:**
-> ___________________________________________________
-> ___________________________________________________
+> Perbedaan fundamentalnya terletak pada tujuannya. Masalah coding (bug) adalah hambatan teknis yang harus segera diperbaiki agar sistem jalan (fokus pada 'how'). Sedangkan masalah riset adalah celah pengetahuan yang ingin dibuktikan kebenarannya secara sistematis (fokus pada 'why'). Dalam coding kita menghindari error, dalam riset, 'error' atau hasil negatif justru merupakan temuan yang valid selama prosesnya benar.
