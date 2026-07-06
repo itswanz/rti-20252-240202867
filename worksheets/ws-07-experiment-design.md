@@ -68,15 +68,18 @@ Ancaman validitas harus diidentifikasi **sebelum** eksperimen dan mitigasinya di
 ```
 EXPERIMENT DESIGN
 
-Research Question :"Apakah penerapan profil undervolting -25mV pada SoC iGPU Radeon Vega 7 menghasilkan nilai 1% low FPS yang lebih stabil dibandingkan dengan pengaturan Stock pada game Valorant?
-Hypothesis        :Profil undervolting menghasilkan peningkatan nilai 1% low FPS $\ge$ 10% dibanding pengaturan stock
+Research Question : Bagaimana pengaruh jumlah client terhadap performa protokol MQTT pada jaringan Internet of Things berdasarkan latency, throughput, dan packet loss?
+
+Hypothesis        : Peningkatan jumlah client memberikan perbedaan signifikan terhadap latency, throughput, dan packet loss.
+
 Tipe Eksperimen   : [x] Comparison  [ ] Ablation  [ ] Parameter
 
 Kondisi Eksperimen:
+
 | Kondisi | Deskripsi | IV Value | CV Settings |
 |---------|-----------|----------|-------------|
-| Control | Pengaturan pabrik (Default) |Stock Voltage (0mV offset)| Low Settings, Ascent Map, 31°C Ambient|
-| Treatment |Pengaturan Optimasi|Undervolt (-25mV offset) |Low Settings, Ascent Map, 31°C Ambient|
+| Control | Beban komunikasi rendah | 10 Client | QoS 1, Payload 256 Byte, Broker MQTT, Jaringan yang sama |
+| Treatment | Beban komunikasi tinggi | 100 Client | QoS 1, Payload 256 Byte, Broker MQTT, Jaringan yang sama |
 
 Fairness Checklist:
   [x] Dataset identik untuk semua kondisi
@@ -86,73 +89,80 @@ Fairness Checklist:
   [x] Metrik evaluasi sama
 
 Threat Analysis:
+
 | Threat Type | Ancaman Spesifik | Mitigasi |
 |-------------|-----------------|----------|
-| Internal    |Background process Windows (Update/Antivirus) tiba-tiba aktif.|Mematikan koneksi internet dan layanan non-esensial sebelum pengujian|
-| External    |Hasil hanya berlaku untuk Radeon Vega 7, mungkin berbeda di iGPU Intel. | Mengakui batasan riset (scope) hanya pada arsitektur Zen 3 APU.|
-| Construct   |Metrik Average FPS tidak menangkap micro-stuttering|Menggunakan 1% Low FPS dan Frame Time graph sebagai metrik utama.|
-| Conclusion  |Variasi tiap sesi game (jumlah musuh berbeda)|Melakukan repetisi 5 kali dan mengambil nilai rata-rata (Mean)|
+| Internal | Aplikasi lain menggunakan bandwidth jaringan selama pengujian. | Menutup seluruh aplikasi yang tidak diperlukan dan menggunakan jaringan khusus untuk eksperimen. |
+| External | Hasil hanya berlaku pada konfigurasi broker dan jaringan yang digunakan. | Menjelaskan batasan penelitian serta menggunakan konfigurasi yang terdokumentasi. |
+| Construct | Latency dipengaruhi oleh kondisi jaringan di luar sistem MQTT. | Menggunakan jaringan lokal yang stabil selama seluruh eksperimen. |
+| Conclusion | Jumlah pengujian terlalu sedikit sehingga hasil kurang mewakili. | Melakukan minimal lima kali pengulangan untuk setiap kondisi dan menghitung nilai rata-rata serta standar deviasi. |
 
 Statistical Plan:
-  Uji statistik   : Independent Samples T-Test.
-  Justifikasi      :Membandingkan rata-rata dari dua kelompok independen (Stock vs UV)
-  Alpha            :0.05 (Tingkat kepercayaan 95%).
-  Effect size min  :Cohen's d > 0.5$.
-```
+  Uji statistik   : Independent Samples T-Test
+  Justifikasi     : Membandingkan rata-rata performa antara dua kelompok pengujian dengan jumlah client yang berbeda.
+  Alpha           : 0.05 (Tingkat kepercayaan 95%)
+  Effect size min : Cohen's d > 0.5
 
 ---
 
-## Latihan 1 — Desain Eksperimen
+# Latihan 1 — Desain Eksperimen
 
-Susun desain eksperimen berdasarkan RQ, variabel, dan sistem dari WS-04 sampai WS-06.
+RQ:
+Bagaimana pengaruh jumlah client terhadap performa protokol MQTT pada jaringan Internet of Things?
 
-**RQ:** __________________________________________________
-**Tipe eksperimen:** [ ] Comparison / [ ] Ablation / [ ] Parameter
+Tipe eksperimen: [x] Comparison / [ ] Ablation / [ ] Parameter
 
 | Kondisi | Deskripsi | IV Value | CV Settings |
 |---------|-----------|----------|-------------|
-| Control | Profil daya seimbang (Balanced) | Stock Voltage |RAM 3200MHz, Driver 24.3.1 |
-| Treatment |Profil daya optimasi|Undervolt -25mV|RAM 3200MHz, Driver 24.3.1 |
+| Control | Jumlah client rendah | 10 Client | Payload 256 Byte, QoS 1, Broker MQTT yang sama |
+| Treatment | Jumlah client tinggi | 100 Client | Payload 256 Byte, QoS 1, Broker MQTT yang sama |
 
 ---
 
-## Latihan 2 — Fairness Checklist
-
-Evaluasi apakah desain eksperimen di Latihan 1 sudah fair.
+# Latihan 2 — Fairness Checklist
 
 | Kriteria | Status | Detail |
 |----------|--------|--------|
-| Dataset identik | *Contoh: ✅ | Skenario game yang dimainkan identik (Map Ascent).|
-| Preprocessing setara | ✅ |Tidak ada perubahan setting game di tengah jalan |
-| Tuning effort setara |✅  | Keduanya diuji dalam kondisi baterai penuh (AC plugged in)|
-| Environment identik |✅  |Lokasi pengujian sama, jam pengujian sama (mencegah fluktuasi suhu) |
-| Metrik evaluasi sama |✅  | Keduanya menggunakan output CapFrameX yang sama|
+| Dataset identik | ✅ | Seluruh pengujian menggunakan skenario komunikasi dan payload yang sama. |
+| Preprocessing setara | ✅ | Konfigurasi broker dan QoS tidak diubah selama eksperimen. |
+| Tuning effort setara | ✅ | Semua kondisi menggunakan konfigurasi broker yang identik. |
+| Environment identik | ✅ | Pengujian dilakukan pada jaringan dan perangkat yang sama. |
+| Metrik evaluasi sama | ✅ | Semua kondisi dievaluasi menggunakan latency, throughput, dan packet loss. |
 
-**Ada yang tidak fair?** [ ] Ya / [x] Tidak
-> Jika ya, bagaimana cara memperbaikinya? ________________
+Ada yang tidak fair? [ ] Ya / [x] Tidak
+
+Jika ya, bagaimana cara memperbaikinya? __________________
 
 ---
 
-## Latihan 3 — Threat Analysis
-
-Identifikasi ancaman validitas untuk desain eksperimen ini.
+# Latihan 3 — Threat Analysis
 
 | Threat Type | Ancaman Spesifik | Mitigasi |
 |-------------|-----------------|----------|
-| Internal | Fluktuasi suhu ruangan (Kebumen siang hari panas). | Pengujian dilakukan berurutan secara cepat dan dipantau termometer.|
-| External |Game update (patch baru) mengubah performa.|Melakukan seluruh sesi eksperimen dalam satu hari yang sama |
-| Construct |Sensor software tidak akurat dibanding hardware. |Menggunakan polling rate sensor tertinggi (20ms) |
-| Conclusion |Sample size kecil (hanya 5 kali lari).|Menghitung standar deviasi untuk melihat konsistensi data|
+| Internal | Trafik jaringan lain memengaruhi hasil pengujian. | Menggunakan jaringan lokal khusus selama eksperimen. |
+| External | Hasil mungkin berbeda pada broker MQTT atau topologi jaringan lain. | Menjelaskan ruang lingkup penelitian dan spesifikasi sistem yang digunakan. |
+| Construct | Latency dipengaruhi kondisi jaringan, bukan hanya performa MQTT. | Menjaga kondisi jaringan tetap stabil dan melakukan pengujian berulang. |
+| Conclusion | Jumlah sampel pengujian kurang banyak. | Melakukan minimal lima kali pengulangan dan menggunakan analisis statistik. |
 
-**Ancaman mana yang paling sulit dimitigasi?** External (Game Updates)
-**Mengapa?**
->Game kompetitif seperti Valorant sering melakukan update kecil yang bisa mengubah cara CPU/GPU menangani render. Jika ada update di tengah eksperimen, data sebelumnya bisa tidak valid
+Ancaman mana yang paling sulit dimitigasi?
+
+External (Perbedaan kondisi jaringan dan broker MQTT)
+
+Mengapa?
+
+Karena performa MQTT dapat dipengaruhi oleh jenis broker, spesifikasi perangkat, dan kondisi jaringan yang berbeda. Walaupun konfigurasi eksperimen dibuat sebaik mungkin, hasil penelitian belum tentu dapat digeneralisasikan ke seluruh lingkungan IoT yang memiliki karakteristik jaringan berbeda.
 
 ---
 
-## Refleksi
+# Refleksi
 
-> Sebuah paper melaporkan "metode kami mengalahkan semua baseline." Apa 3 pertanyaan pertama yang harus diajukan untuk mengevaluasi klaim ini?
+Jawaban:
+
+1. Apakah seluruh baseline diuji menggunakan konfigurasi, dataset, dan lingkungan yang sama sehingga perbandingan benar-benar adil? (Fairness)
+
+2. Apakah peningkatan performa yang dilaporkan didukung oleh analisis statistik yang menunjukkan perbedaan signifikan, bukan hanya selisih angka? (Conclusion Validity)
+
+3. Apakah metode pengukuran dan metrik yang digunakan benar-benar mewakili tujuan penelitian sehingga hasilnya dapat dipercaya? (Construct Validity)
 
 **Jawaban:**
 1.Apakah baselinenya sudah diatur dengan konfigurasi optimal (best-effort) atau hanya menggunakan pengaturan default yang lemah?" (Fairness Check)_
