@@ -80,14 +80,16 @@ Jika variabel tidak bisa di-map ke komponen apapun → arsitektur perlu didesain
 ```
 SYSTEM-EXPERIMENT MAPPING
 
-Research Question: ____________________
+Research Question:
+Bagaimana pengaruh jumlah client terhadap performa protokol MQTT pada jaringan Internet of Things berdasarkan latency, throughput, dan packet loss?
 
 Variable → Component Mapping:
+
 | Variabel | Tipe | Komponen Sistem | Cara Manipulasi/Pengukuran |
 |----------|------|-----------------|---------------------------|
-|Tegangan SoC | IV   |Power Tuning Module (AMD Adrenalin/Afterburner) |Mengubah Voltage Offset (-25mV vs 0mV)|
-|Stabilitas Performa| DV   |Metrics Logger (CapFrameX / MSI Afterburner)|Pencatatan otomatis frame time setiap 1ms|
-|Beban Kerja Game| CV   |Scenario Controller (Custom Game Profile)|Mengunci setting grafis (Low), Map (Ascent), dan durasi (10 menit) |
+|Jumlah Client MQTT|IV|MQTT Client Simulator|Mengubah jumlah client yang terhubung ke broker (10, 50, 100 client)|
+|Performa MQTT|DV|MQTT Monitoring & Logger|Mencatat latency, throughput, dan packet loss secara otomatis|
+|Ukuran Payload|CV|MQTT Publisher Configuration|Menggunakan ukuran payload yang sama pada setiap pengujian|
 
 4 Prinsip Desain:
   [x] Traceability — Setiap komponen bisa ditelusuri ke variabel
@@ -96,72 +98,69 @@ Variable → Component Mapping:
   [x] Reproducibility — Setup bisa direkonstruksi
 
 Experimental Setup:
-  Input data     :Skenario Deathmatch Valorant (Map Ascent
-  Parameter      : Driver AMD v24.3.1, RAM 16GB Dual Channel, Ambient Temp 31°C
-  Output format  : File CSV berisi log frame time dan suhu
-```
+  Input data     : Simulasi komunikasi perangkat IoT menggunakan broker MQTT
+  Parameter      : Broker MQTT, ukuran payload tetap, QoS 1, variasi jumlah client
+  Output format  : File CSV berisi latency, throughput, dan packet loss
 
 ---
 
-## Latihan 1 — Variable-to-Component Mapping
+# Latihan 1 — Variable-to-Component Mapping
 
-Gunakan RQ dan variabel dari WS-05. Petakan ke komponen sistem.
-
-**RQ:** __________________________________________________
+RQ:
+Bagaimana pengaruh jumlah client terhadap performa protokol MQTT pada jaringan Internet of Things?
 
 | Variabel | Tipe | Komponen Sistem | Cara Manipulasi / Pengukuran |
-|----------|------|-----------------|---------------------------|
-| Voltase SoC | *IV* | AMD Adrenalin Performance Tab| Ganti profil manual voltage_offset|
-|1% Low FPS | DV |CapFrameX Analysis Tool|Kalkulasi otomatis dari distribusi frame time|
-|Suhu Kerja| CV |HWInfo64 Monitoring|Pembacaan sensor dioda SoC iGPU|
+|----------|------|-----------------|------------------------------|
+|Jumlah Client MQTT|IV|MQTT Client Simulator|Mengubah jumlah client yang terhubung ke broker|
+|Latency, Throughput, Packet Loss|DV|MQTT Monitoring & Logger|Pencatatan otomatis hasil komunikasi selama pengujian|
+|Ukuran Payload|CV|MQTT Publisher Configuration|Menggunakan ukuran payload yang sama pada setiap percobaan|
 
-**Apakah semua variabel bisa di-map?** [x] Ya / [ ] Tidak
-> Jika tidak, komponen apa yang perlu ditambahkan? _________
+Apakah semua variabel bisa di-map? [x] Ya / [ ] Tidak
+
+Jika tidak, komponen apa yang perlu ditambahkan? __________________
 
 ---
 
-## Latihan 2 — 4 Prinsip Desain
-
-Evaluasi desain sistem terhadap 4 prinsip.
+# Latihan 2 — 4 Prinsip Desain
 
 | Prinsip | Status | Bukti / Penjelasan |
-|---------|--------|-------------------|
-| Traceability |  ✅  |Voltase dikontrol lewat Adrenalin, hasil diukur lewat CapFrameX|
-| Modularity | ✅|Software tuning terpisah dari software pengukur (logger). |
-| Controllability | ✅|Setting game dikunci di file GameUserSettings.ini|
-| Measurability | ✅| CapFrameX menyediakan metrik presisi hingga milidetik.|
+|---------|--------|--------------------|
+|Traceability|✅|Jumlah client dikontrol melalui simulator dan hasil diukur menggunakan logger MQTT.|
+|Modularity|✅|Simulator client, broker, dan logger dipisahkan sehingga mudah dimodifikasi.|
+|Controllability|✅|Ukuran payload dan QoS dikunci agar setiap pengujian menggunakan konfigurasi yang sama.|
+|Measurability|✅|Logger MQTT secara otomatis menghasilkan data latency, throughput, dan packet loss.|
 
-**Prinsip mana yang paling sulit dipenuhi?**Controllability
+**Prinsip mana yang paling sulit dipenuhi?**
+
+Controllability
+
 **Strategi untuk mengatasinya:**
-> Menggunakan mode "Practice" atau "Deathmatch" yang variabel musuhnya lebih acak, namun tetap konsisten dalam durasi dan beban grafis
+
+Menggunakan konfigurasi jaringan yang sama pada setiap pengujian, mengunci ukuran payload, QoS, dan parameter broker agar hasil eksperimen tetap konsisten.
 
 ---
 
-## Latihan 3 — Ablation Study Planning
-
-Jika sistem memiliki 3 komponen utama, rencanakan ablation study.
-
-> **Panduan jumlah kondisi:** Untuk 3 komponen (A, B, C), kondisi minimal yang direkomendasikan:
-> Full + (-A) + (-B) + (-C) = **4 kondisi dasar**. Jika waktu memungkinkan, tambahkan kombinasi ganda: (-A,-B), (-A,-C), (-B,-C) = **7 kondisi**. Sesuaikan dengan *computational cost* dan tenggat waktu penelitian.
+# Latihan 3 — Ablation Study Planning
 
 | Kondisi | Komponen A | Komponen B | Komponen C | Hasil yang Diharapkan |
-|---------|-----------|-----------|-----------|----------------------|
-| Full | ✅ undervolt| ✅ xmp provile | ✅ Aggressive Curve | Performa paling stabil & dingin |
-| – A | ❌ Stock Volt) | ✅ | ✅ |Suhu naik, kemungkinan throttling|
-| – B | ✅ | ❌ Stock (2133MHz) | ✅ |FPS rata-rata turun drastis |
-| – C | ✅ | ✅ | ❌ Default/Quiet |Suhu naik, kipas lambat |
+|---------|------------|------------|------------|-----------------------|
+|Full|✅ QoS 1|✅ Payload Tetap|✅ Logger Aktif|Performa komunikasi dapat diukur secara lengkap|
+|– A|❌ QoS 0|✅|✅|Latency lebih rendah tetapi keandalan pengiriman pesan menurun|
+|– B|✅|❌ Payload Berbeda|✅|Throughput berubah dan hasil kurang konsisten|
+|– C|✅|✅|❌ Logger Nonaktif|Performa tidak dapat dianalisis secara lengkap|
 
-**Komponen mana yang diprediksi paling berkontribusi?** Komponen B (RAM)
-**Mengapa?**
-> Karena iGPU sangat bergantung pada memory bandwidth. Namun, Komponen A diprediksi paling berkontribusi pada stabilitas (mengurangi stutter)
+Komponen mana yang diprediksi paling berkontribusi?
+
+Komponen A (QoS)
+
+Mengapa?
+
+Karena Quality of Service (QoS) secara langsung memengaruhi mekanisme pengiriman pesan pada MQTT sehingga berdampak terhadap latency, throughput, dan tingkat keberhasilan pengiriman data.
 
 ---
 
-## Refleksi
-
-> Apa risiko jika sistem dibangun seperti produk (monolitik, fitur lengkap) lalu baru dilakukan eksperimen? Mengapa arsitektur modular penting untuk riset?
+# Refleksi
 
 **Jawaban:**
-Risiko jika sistem dibangun sebagai "produk" monolitik adalah kita tidak bisa mengisolasi penyebab perubahan hasil. Jika sistem tiba-tiba kencang, kita tidak tahu apakah itu karena algoritma A, konfigurasi B, atau sekadar keberuntungan.
 
-Arsitektur modular sangat penting karena memungkinkan peneliti untuk melakukan Variable Isolation. Kita bisa menukar satu komponen (IV) sementara komponen lainnya (CV) tetap diam, sehingga kita yakin bahwa perubahan output (DV) benar-benar disebabkan oleh manipulasi yang kita lakukan, bukan karena noise dari fitur lain
+Risiko jika sistem dibangun seperti produk yang bersifat monolitik adalah sulit mengetahui komponen mana yang benar-benar memengaruhi hasil penelitian. Ketika performa berubah, peneliti tidak dapat memastikan apakah perubahan tersebut disebabkan oleh variabel yang diteliti atau oleh komponen lain dalam sistem. Oleh karena itu, arsitektur modular sangat penting dalam penelitian karena memungkinkan setiap variabel dipisahkan dan dikendalikan secara independen. Dengan cara ini, perubahan pada hasil pengujian dapat dikaitkan secara langsung dengan variabel yang dimanipulasi sehingga eksperimen menjadi lebih valid, mudah direproduksi, dan sesuai dengan tujuan penelitian.
