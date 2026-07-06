@@ -67,59 +67,60 @@ Jika rantai ini tidak lengkap, RQ belum mature. Bi-directional: RQ yang tidak bi
 ```
 RQ-CONTRIBUTION-HYPOTHESIS
 
-Gap Statement  : Kurangnya studi mengenai efektivitas kombinasi undervolting manual dan memory profile terhadap kestabilan frame time (1% low FPS) pada iGPU Radeon Vega 7 dalam kondisi suhu lingkungan tinggi (>30°C
+Gap Statement  : Kurangnya penelitian yang menganalisis performa protokol MQTT menggunakan kombinasi metrik latency, throughput, dan packet loss pada kondisi jumlah client yang bervariasi.
 
 Research Question:
-  Tipe         : [ ] Comparison  [x] Improvement  [ ] Exploratory
-  Formulasi    :Apakah penerapan profil undervolting -25mV pada SoC iGPU Radeon Vega 7 menghasilkan nilai 1% low FPS yang lebih stabil (standar deviasi lebih rendah) dibandingkan dengan pengaturan Auto-Clock pada game Valorant di lingkungan suhu >30°C?
-  Variabel IV  : Profil tegangan iGPU (Stock vs Undervolt -25mV)
-  Variabel DV  : Stabilitas frame time dan suhu kerja
-  Metrik       : 1% Low FPS (FPS) dan Standard Deviation dari Frame Time (ms)
-  Dataset      : Game Valorant (Map Ascent, durasi 10 menit Deathmatch
-  Baseline     : Pengaturan Default pabrik (Stock)
+  Tipe         : [ ] Comparison  [ ] Improvement  [x] Exploratory
+  Formulasi    : Bagaimana pengaruh jumlah client terhadap performa protokol MQTT pada jaringan Internet of Things berdasarkan latency, throughput, dan packet loss?
+  Variabel IV  : Jumlah client MQTT
+  Variabel DV  : Latency, Throughput, dan Packet Loss
+  Metrik       : Latency (ms), Throughput (Mbps), Packet Loss (%)
+  Dataset      : Simulasi komunikasi perangkat IoT menggunakan broker MQTT
+  Baseline     : Pengujian dengan jumlah client rendah (10 client)
 
 Quality Check RQ:
-  [ ] Variabel spesifik
-  [ ] Metrik jelas
+  [x] Variabel spesifik
+  [x] Metrik jelas
   [x] Baseline ada
-  [ ] Konteks disebutkan
-  [ ] Memerlukan eksperimen (bukan hanya survei literatur)
+  [x] Konteks disebutkan
+  [x] Memerlukan eksperimen (bukan hanya survei literatur)
 
 Contribution Statement:
-  Apa yang baru diketahui : Pengaruh presisi dari penurunan voltase terhadap konsistensi performa iGPU pada suhu tropis
-  Jenis kontribusi        : [x] Improvement  [ ] Comparison  [ ] Novel approach
-  Gap yang diisi          : Mengatasi performance gap (stuttering) akibat panas berlebih pada hardware entry-leve
+  Apa yang baru diketahui : Pengaruh peningkatan jumlah client terhadap performa komunikasi MQTT berdasarkan beberapa metrik secara bersamaan.
+  Jenis kontribusi        : [ ] Improvement  [x] Comparison  [ ] Novel approach
+  Gap yang diisi          : Mengisi performance gap mengenai evaluasi performa MQTT pada berbagai jumlah client.
+
 Hypothesis Pair:
-  H₀ : Tidak ada perbedaan signifikan pada nilai 1% low FPS antara profil undervolting dan pengaturan stock
-  H₁ : Profil undervolting menghasilkan peningkatan nilai 1% low FPS minimal sebesar 10% dibanding pengaturan stock
-  Threshold              :  Peningkatan 10% pada metrik 1% low FPS
-  Justifikasi threshold  : Angka 10% adalah batas minimal perbedaan yang dapat dirasakan secara visual (perceptible) oleh pemain game kompetitif
+  H₀ : Tidak terdapat perbedaan signifikan pada latency, throughput, dan packet loss ketika jumlah client MQTT bertambah.
+  H₁ : Peningkatan jumlah client MQTT memberikan perbedaan signifikan terhadap latency, throughput, dan packet loss.
+  Threshold              : Perubahan latency minimal 10% disertai perubahan throughput atau packet loss.
+  Justifikasi threshold  : Perubahan sebesar 10% dianggap cukup untuk menunjukkan adanya perubahan performa komunikasi yang dapat diukur secara statistik.
 ```
 
 ---
 
 ## Latihan 1 — Dari Gap ke RQ
 
-Gunakan gap yang ditemukan di WS-03. Transformasikan menjadi Research Question.
+Kurangnya penelitian yang mengevaluasi performa MQTT menggunakan kombinasi latency, throughput, dan packet loss pada jumlah client yang berbeda.
 
-**Gap dari WS-03:** Kurangnya data pengujian stabilitas frame time pada iGPU Ryzen di suhu ruangan non-AC
+RQ versi pertama (tulis bebas):
 
-**RQ versi pertama (tulis bebas):**
->Bagaimana pengaruh modifikasi kurva voltase terhadap konsistensi frame time iGPU Radeon Vega 7 saat menjalankan beban kerja game kompetitif di suhu lingkungan 30-33°C?
+Bagaimana pengaruh jumlah client terhadap performa komunikasi protokol MQTT pada jaringan Internet of Things?
 
-**Evaluasi RQ:**
+Evaluasi RQ:
 
-| Komponen | Ada? | Isi |
-|----------|------|-----|
-| Metode spesifik | Tidak ada perbedaan signifikan pada nilai 1% low FPS antara profil undervolting dan pengaturan stock|
-| Metrik terukur | Profil undervolting menghasilkan peningkatan nilai 1% low FPS minimal sebesar 10% dibanding pengaturan stock |
-| Baseline | |Peningkatan  10% pada metrik 1% low FPS |
-| Dataset/konteks | |Angka 10% adalah batas minimal perbedaan yang dapat dirasakan secara visual (perceptible) oleh pemain game kompetitif |
+Komponen	Ada?	Isi
+Metode spesifik	Ya	Pengujian performa MQTT dengan variasi jumlah client
+Metrik terukur	Ya	Latency, Throughput, dan Packet Loss
+Baseline	Ya	Pengujian dengan jumlah client rendah (10 client)
+Dataset/konteks	Ya	Simulasi komunikasi perangkat IoT menggunakan broker MQTT
 
-**Tipe RQ:** [ ] Comparison / [ ] Improvement / [ ] Exploratory
+Tipe RQ:
+[ ] Comparison / [ ] Improvement / [x] Exploratory
 
-**RQ versi revisi (setelah evaluasi):**
-> ___________________________________________________
+RQ versi revisi (setelah evaluasi):
+
+Bagaimana pengaruh variasi jumlah client terhadap performa protokol MQTT pada jaringan Internet of Things berdasarkan metrik latency, throughput, dan packet loss?
 
 ---
 
@@ -127,34 +128,34 @@ Gunakan gap yang ditemukan di WS-03. Transformasikan menjadi Research Question.
 
 Rumuskan pasangan hipotesis dari RQ di Latihan 1.
 
-| Komponen | Isi |
-|----------|-----|
-| H₀ | Modifikasi voltase tidak menurunkan frekuensi stuttering (frame time spike) |
-| H₁ |Modifikasi voltase menurunkan frekuensi frame time spike secara signifikan |
-| Metrik |Frame time variance (ms)|
-| Threshold |Penurunan varians  15% |
+Komponen	Isi
+H₀	Penambahan jumlah client tidak memberikan perbedaan signifikan terhadap latency, throughput, dan packet loss.
+H₁	Penambahan jumlah client memberikan perbedaan signifikan terhadap latency, throughput, dan packet loss.
+Metrik	Latency (ms), Throughput (Mbps), Packet Loss (%)
+Threshold	Perubahan minimal 10% pada salah satu metrik performa.
 
+Apakah hipotesis ini falsifiable? [x] Ya / [ ] Tidak
 
-**Apakah hipotesis ini falsifiable?** [x] Ya / [ ] Tidak
-> Bagaimana cara membuktikannya salah? ___________________
+Bagaimana cara membuktikannya salah?
 
+Melakukan pengujian menggunakan beberapa variasi jumlah client, kemudian membandingkan hasil latency, throughput, dan packet loss menggunakan analisis statistik. Apabila tidak ditemukan perbedaan yang signifikan, maka hipotesis alternatif (H₁) ditolak dan H₀ diterima.
 ---
 
 ## Latihan 3 — Rantai Operasionalisasi
 
 Lengkapi rantai dari RQ hingga metode analisis.
 
-| Tahap | Isi |
-|-------|-----|
-| RQ |Apakah undervolting meningkatkan stabilitas 1% low FPS? |
-| Variable (IV) | Tegangan SoC iGPU (Volt |
-| Variable (DV) |1% Low FPS |
-| Metric |Frames per second (FPS) |
-| Data source |Log dari software MSI Afterburner / CapFrameX |
-| Analysis method |Comparative Analysis (T-test) antara data Stock vs Undervolt |
+| Tahap	Isi
+RQ	Bagaimana pengaruh jumlah client terhadap performa protokol MQTT?
+Variable (IV)	Jumlah client MQTT
+Variable (DV)	Latency, Throughput, dan Packet Loss
+Metric	Latency (ms), Throughput (Mbps), Packet Loss (%)
+Data source	Hasil pengujian komunikasi pada broker MQTT
+Analysis method	Analisis komparatif dan statistik terhadap hasil pengujian
 
-**Apakah rantai lengkap?** [ ] Ya / [ ] Tidak
-> Jika tidak, tahap mana yang perlu direvisi? ______________
+Apakah rantai lengkap? [x] Ya / [ ] Tidak
+
+Jika tidak, tahap mana yang perlu direvisi? __________________
 
 ---
 
@@ -162,6 +163,6 @@ Lengkapi rantai dari RQ hingga metode analisis.
 
 > Ambil satu judul skripsi/paper yang pernah dibaca. Coba ekstrak RQ-nya. Apakah RQ tersebut memenuhi semua komponen (metode, metrik, baseline, konteks)? Jika tidak, apa yang hilang?
 
-**Judul:** Performance Optimization of Integrated Graphics in Competitive Gaming
-**RQ yang diekstrak:**Dapatkan overclocking RAM meningkatkan FPS?
-**Komponen yang hilang:**Tidak menyebutkan Metode overclocking secara spesifik (XMP atau Manual), tidak menyebutkan Dataset/Game yang digunakan, dan tidak menyebutkan Baseline pembandingnya_
+**Judul:** Performance Analysis of MQTT Protocol in Internet of Things Applications
+**RQ yang diekstrak:**Bagaimana pengaruh jumlah client terhadap performa protokol MQTT berdasarkan latency dan throughput?
+**Komponen yang hilang:**RQ tersebut belum menyebutkan baseline yang digunakan sebagai pembanding, belum menjelaskan skenario pengujian secara rinci, serta belum memasukkan metrik packet loss sehingga evaluasi performanya belum sepenuhnya komprehensif.
