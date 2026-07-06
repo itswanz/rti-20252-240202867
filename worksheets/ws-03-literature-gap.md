@@ -77,35 +77,35 @@ Membandingkan deep learning 2024 dengan decision tree sederhana tanpa justifikas
 ```
 LITERATURE MAPPING
 
-Topik      : Optimization of Integrated Graphics (iGPU) for Real-Time Gaming Performance
-Database   : Google Scholar, ResearchGate, arXiv.
-Query      : ("iGPU" OR "Integrated Graphics") AND ("undervolting" OR "overclocking") AND ("gaming performance" OR "frame time stability")
-Tahun      : 2020 – 2026
-Hasil awal : 45 paper → Screening → 5 paper final
+Topik      : Analisis Performa Protokol MQTT pada Jaringan Internet of Things (IoT)
+Database   : Google Scholar, IEEE Xplore, ResearchGate
+Query      :("MQTT" OR "Message Queuing Telemetry Transport") AND ("IoT" OR "Internet of Things") AND ("performance" OR "latency" OR "throughput")
+Tahun      : 2020–2026
+Hasil awal : 52 paper → Screening → 5 paper final
 
 Literature Matrix (concept-centric):
 
 | Study | Tahun | Method | Data | Result | Limitation |
 |-------|-------|--------|------|--------|------------|
-|Kumar et al | 2021  |  Undervolting CPU      |   Laptop Ryzen 5   |  Suhu turun 10°C      |   tidak mengukur stabilitas frame time game          |
+|Sharma et al. | 2021  | Evaluasi MQTT QoS     |   Simulasi IoT   | QoS meningkatkan keandalan pesan | Tidak menguji banyak client |
 
 Pola yang ditemukan:
-  Metode dominan     : Modifikasi fisik (thermal paste) dan Overclocking RAM
-  Dataset umum       : Benchmark sintetis (3DMark) dan game AAA
-  Limitasi berulang  : Jarang ada yang fokus pada stabilitas frame time (1% low) melalui kombinasi undervolting pada iGPU kelas menengah
+  Metode dominan     : Pengujian latency, QoS, dan load testing pada broker MQTT.
+  Dataset umum       : Simulasi jaringan IoT dan perangkat sensor.
+  Limitasi berulang  : Sebagian besar penelitian hanya mengukur satu atau dua parameter performa dan belum mengevaluasi latency, throughput, serta packet loss secara bersamaan pada berbagai jumlah client.
 
 GAP IDENTIFICATION
 
 Gap 1: [Jenis: performance / method / data / context]
-  Deskripsi    : Kurangnya studi yang menguji efektivitas undervolting manual pada driver terbaru (2025/2026) untuk menjaga konsistensi frame time pada game kompetitif
-  Bukti        : Kebanyakan paper (Kumar, Smith) hanya fokus pada FPS rata-rata (average), bukan kemulusan (stutter-free)
-  Signifikansi : Penting bagi gamer kompetitif karena stuttering lebih mengganggu daripada FPS rendah.
+  Deskripsi    : Sebagian besar penelitian hanya mengukur satu atau dua parameter performa dan belum mengevaluasi latency, throughput, serta packet loss secara bersamaan pada berbagai jumlah client.
+  Bukti        : Sebagian besar penelitian hanya berfokus pada latency atau QoS tanpa melakukan evaluasi performa secara menyeluruh.
+  Signifikansi : Hasil penelitian dapat memberikan gambaran yang lebih lengkap mengenai kemampuan MQTT dalam menangani komunikasi data pada jaringan IoT dengan banyak perangkat.
 
 
 Baseline Selection:
 | Baseline | Relevansi | Representatif | Source |
-|Pengaturan Stock/Default|Sebagai kontrol awa|Kondisi asli semua pengguna|Vendor Manual|
-|Auto-Overclock (Ryzen Master)|Solusi instan dari vendor|Fitur paling umum dipakai user|AMD Doc 2024
+|MQTT QoS Level 0|Digunakan sebagai konfigurasi dasar MQTT|Pengaturan default yang paling banyak digunakan|MQTT Specification|
+|MQTT QoS Level 1|Digunakan untuk meningkatkan keandalan pengiriman pesan|Banyak digunakan pada implementasi IoT|MQTT Specification
 ```
 
 ---
@@ -119,20 +119,20 @@ Gunakan topik riset dari WS-02. Cari minimal 5 paper relevan menggunakan databas
 > - Tulis query Boolean yang digunakan: contoh `("object detection" OR "image classification") AND ("edge computing") NOT ("medical")`. Dokumentasikan query secara eksplisit.
 > - Akses gratis: buka Google Scholar → cari judul paper → klik [PDF] jika tersedia, atau akses lewat campus VPN
 
-**Topik riset:** ________________________________________
-**Query pencarian:** ____________________________________
-**Database:** ___________________________________________
+**Topik riset:** Analisis Performa Protokol MQTT pada Jaringan Internet of Things (IoT)
+**Query pencarian:** ("MQTT" OR "Message Queuing Telemetry Transport") AND ("IoT") AND ("performance" OR "latency" OR "throughput")
+**Database:** Google Scholar dan IEEE Xplore
 
 | # | Study | Tahun | Method | Dataset | Result | Limitasi |
 |---|-------|-------|--------|---------|--------|----------|
-| 1 | *Contoh: Rahman et al.* | *2023* | *CNN* | *ImageNet subset* | *Acc 91%* | *Hanya 3 kelas* |
+| 1 | *Sharma et al. | 2021 | QoS Analysis | IoT Simulation |Latency rendah | Latency rendah|
 | 2 | | | | | | |
 | 3 | | | | | | |
 | 4 | | | | | | |
 | 5 | | | | | | |
 
-**Pola yang terlihat — Metode dominan:** ___________________
-**Limitasi yang berulang:** ______________________________
+**Pola yang terlihat — Metode dominan:** Pengujian latency, QoS, dan load testing pada broker MQTT.
+**Limitasi yang berulang:** Belum banyak penelitian yang mengukur latency, throughput, dan packet loss secara bersamaan pada berbagai jumlah client.
 
 ---
 
@@ -142,14 +142,14 @@ Berdasarkan tabel di Latihan 1, identifikasi gap.
 
 | Jenis Gap | Ditemukan? | Gap Statement |
 |-----------|-----------|---------------|
-| Performance Gap | [ ] Ya / [ ] Tidak | *Contoh: Akurasi turun di bawah 80% untuk kelas minoritas* |
+| Performance Gap | [x] Ya / [ ] Tidak | Belum banyak penelitian yang mengevaluasi latency, throughput, dan packet loss secara bersamaan.|
 | Method Gap | [ ] Ya / [ ] Tidak | |
 | Data Gap | [ ] Ya / [ ] Tidak | |
-| Context Gap | [ ] Ya / [ ] Tidak | |
+| Context Gap | [x] Ya / [ ] Tidak | Masih sedikit penelitian pada skenario IoT dengan jumlah client yang terus bertambah.|
 
 **Gap utama yang dipilih:** _____________________________
 **Mengapa gap ini penting (bukan sekadar "belum ada yang meneliti")?**
-> ___________________________________________________
+> Karena performa komunikasi merupakan faktor utama dalam menentukan keandalan sistem IoT. Evaluasi yang hanya menggunakan satu parameter belum cukup untuk menggambarkan kualitas komunikasi secara menyeluruh, sehingga diperlukan analisis menggunakan beberapa parameter performa sekaligus.
 
 ---
 
@@ -159,11 +159,12 @@ Pilih 2 baseline dari literatur yang sudah dibaca.
 
 | # | Baseline | Mengapa Relevan | Mengapa Representatif | Apakah SOTA? | Sumber |
 |---|----------|----------------|----------------------|-------------|--------|
-| 1 | *Contoh: RF + TF-IDF* | *Task sama: klasifikasi teks* | *Dipakai 6 dari 10 paper* | *Bukan, tapi common practice* | *Lee et al., 2022* |
-| 2 | | | | | |
+| 1 |MQTT QoS Level 0 | Konfigurasi dasar MQTT | Digunakan secara luas | Bukan, tetapi merupakan standar | MQTT Specification |
+| 2 |MQTT QoS Level 1 | Banyak digunakan pada aplikasi IoT|Menjamin pengiriman pesan |Bukan, tetapi common practice | MQTT Specification|
 
-**Apakah pemilihan baseline ini bisa dianggap straw man?** [ ] Ya / [ ] Tidak
-> Justifikasi: ________________________________________
+
+**Apakah pemilihan baseline ini bisa dianggap straw man?** [ ] Ya / [ x] Tidak
+> Justifikasi: Kedua baseline merupakan konfigurasi standar MQTT yang umum digunakan pada implementasi IoT sehingga perbandingan dilakukan secara adil dan relevan dengan penelitian.
 
 ---
 
@@ -172,5 +173,4 @@ Pilih 2 baseline dari literatur yang sudah dibaca.
 > Apa perbedaan antara "belum ada yang meneliti ini" (klaim tanpa bukti) dengan research gap yang valid? Bagaimana cara membuktikan bahwa sebuah gap benar-benar ada?
 
 **Jawaban:**
-> ___________________________________________________
-> ___________________________________________________
+> Perbedaan antara klaim "belum ada yang meneliti ini" dan research gap yang valid terletak pada bukti pendukungnya. Klaim tanpa bukti hanya merupakan asumsi peneliti, sedangkan research gap harus didukung oleh hasil penelusuran literatur yang sistematis dari berbagai sumber ilmiah. Suatu gap dapat dibuktikan dengan membandingkan penelitian-penelitian sebelumnya, mengidentifikasi keterbatasan yang berulang, serta menunjukkan aspek yang masih belum terjawab atau belum dievaluasi secara memadai. Dengan demikian, research gap memiliki dasar ilmiah yang jelas dan dapat dipertanggungjawabkan.
