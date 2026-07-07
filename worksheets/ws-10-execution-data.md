@@ -70,22 +70,24 @@ EXECUTION PLAN
 
 | Run # | Skenario | Seed | Parameter | Status | Waktu | Output File |
 |-------|----------|------|-----------|--------|-------|-------------|
-| 1     |          |      |           |        |       |             |
-| 2     |          |      |           |        |       |             |
-| 3     |          |      |           |        |       |             |
-| ...   |          |      |           |        |       |             |
+| 1 | 10 Client | 42 | QoS=0, Payload=256B | Planned | - | run01.csv |
+| 2 | 10 Client | 123 | QoS=0, Payload=256B | Planned | - | run02.csv |
+| 3 | 50 Client | 42 | QoS=0, Payload=256B | Planned | - | run03.csv |
+| 4 | 50 Client | 123 | QoS=0, Payload=256B | Planned | - | run04.csv |
+| 5 | 100 Client | 42 | QoS=0, Payload=256B | Planned | - | run05.csv |
 
-Jumlah runs per skenario : ____
-Total runs               : ____
+Jumlah runs per skenario : 5
+Total runs               : 15
 
 DATA LOG (per run):
-  Run ID    : ____________________
-  Timestamp : ____________________
-  Skenario  : ____________________
-  Input     : ____________________
-  Output    : ____________________
-  Anomali   : ____________________
-  Catatan   : ____________________
+
+  Run ID    : run-001
+  Timestamp : 2026-07-07 10:00 WIB
+  Skenario  : 10 MQTT Client
+  Input     : QoS=0, Payload=256 Byte
+  Output    : Latency, Throughput, Packet Loss
+  Anomali   : Tidak ada
+  Catatan   : Pengujian berjalan normal
 ```
 
 ---
@@ -95,16 +97,17 @@ DATA LOG (per run):
 Susun execution plan untuk eksperimen Anda. Tentukan skenario, jumlah run, dan seed sebelum eksekusi.
 
 | Run # | Skenario | Seed | Parameter Kunci | Status |
-|-------|----------|------|----------------|--------|
-| *1* | *Contoh: BERT-base, DS-1* | *42* | *lr=2e-5, epoch=10* | *Planned* |
-| *2* | *BERT-base, DS-1* | *123* | *lr=2e-5, epoch=10* | *Planned* |
-| 3 | | | | |
-| 4 | | | | |
-| 5 | | | | |
+|-------|----------|------|-----------------|--------|
+| 1 | 10 MQTT Client | 42 | QoS=0, Payload=256 Byte | Planned |
+| 2 | 10 MQTT Client | 123 | QoS=0, Payload=256 Byte | Planned |
+| 3 | 50 MQTT Client | 42 | QoS=0, Payload=256 Byte | Planned |
+| 4 | 50 MQTT Client | 123 | QoS=0, Payload=256 Byte | Planned |
+| 5 | 100 MQTT Client | 42 | QoS=0, Payload=256 Byte | Planned |
 
-**Total skenario:** ____
-**Run per skenario:** ____
-**Total run keseluruhan:** ____
+**Total skenario:** 3
+**Run per skenario:** 5
+**Total run keseluruhan:** 15
+
 
 ---
 
@@ -112,51 +115,54 @@ Susun execution plan untuk eksperimen Anda. Tentukan skenario, jumlah run, dan s
 
 Desain format data log untuk eksperimen Anda. Tentukan field apa saja yang akan dicatat.
 
-**Identitas:**
+### Identitas
 | Field | Contoh |
-|-------|--------|
-| Run ID | *run-001* |
-| Timestamp | *2025-03-15T10:30:00* |
-| | |
+|------|---------|
+| Run ID | run-001 |
+| Timestamp | 2026-07-07T10:00:00 |
 
-**Konfigurasi:**
+### Konfigurasi
 | Field | Contoh |
-|-------|--------|
-| Seed | *42* |
-| Code version | *commit abc1234* |
-| | |
+|------|---------|
+| Seed | 42 |
+| Code Version | commit 8ab123c |
+| QoS | 0 |
+| Payload | 256 Byte |
+| Jumlah Client | 10 |
 
-**Hasil:**
+### Hasil
 | Metrik | Tipe Data | Range Valid |
-|--------|----------|-------------|
-| *Contoh: Accuracy* | *float* | *0.0 – 1.0* |
-| | | |
-| | | |
+|---------|-----------|-------------|
+| Latency | float | ≥ 0 ms |
+| Throughput | float | ≥ 0 Mbps |
+| Packet Loss | float | 0–100 % |
 
-**Format output:** [ ] CSV / [ ] JSON / [ ] Database / [ ] Lainnya: ____
+**Format output:** [x] CSV / [ ] JSON / [ ] Database / [ ] Lainnya: ______
+
 
 ---
 
 ## Latihan 3 — Anomaly Protocol
 
-Rencanakan bagaimana menangani anomali. Untuk setiap jenis, tentukan langkah yang diambil.
+Rencanakan bagaimana menangani anomali.
 
 | Jenis Anomali | Contoh | Tindakan |
 |---------------|--------|----------|
-| Run gagal (crash) | *Contoh: OOM pada batch_size=64* | *Contoh: Dokumentasi, re-run batch_size=32, catat perubahan* |
-| Hasil ekstrem | | |
-| Waktu eksekusi anomali | | |
-| Inkonsistensi dengan run lain | | |
+| Run gagal (crash) | Broker MQTT berhenti tiba-tiba | Dokumentasikan penyebab, restart broker, lalu ulangi run yang gagal |
+| Hasil ekstrem | Latency jauh lebih tinggi dari run lainnya | Periksa kondisi jaringan, ulangi pengujian, dan simpan kedua hasil |
+| Waktu eksekusi anomali | Pengujian berlangsung jauh lebih lama | Cek penggunaan CPU, RAM, dan koneksi jaringan sebelum re-run |
+| Inkonsistensi dengan run lain | Throughput turun drastis hanya pada satu run | Bandingkan konfigurasi, investigasi log, kemudian putuskan apakah perlu re-run |
 
 **Prinsip:** Detect → Investigate → Document → Decide
 
 ---
 
-## Refleksi
-
-> Pernahkah Anda melaporkan hasil riset/tugas dari single run? Apa risikonya? Bagaimana multiple run mengubah kepercayaan terhadap hasil?
+# Refleksi
 
 **Pengalaman sebelumnya:**
-> ___________________________________________________
+
+Saya pernah melaporkan hasil pengujian hanya berdasarkan satu kali percobaan. Cara tersebut berisiko karena hasil yang diperoleh bisa dipengaruhi oleh kondisi sesaat, seperti beban jaringan atau proses lain yang berjalan di sistem, sehingga belum tentu mewakili kondisi sebenarnya.
+
 **Yang akan dilakukan berbeda:**
-> ___________________________________________________
+
+Saya akan menjalankan setiap skenario minimal lima kali dengan seed yang telah ditentukan sebelumnya, kemudian menghitung nilai rata-rata dan standar deviasi. Dengan demikian, hasil eksperimen menjadi lebih konsisten, lebih dapat dipercaya, dan layak digunakan sebagai dasar pengambilan kesimpulan ilmiah.
