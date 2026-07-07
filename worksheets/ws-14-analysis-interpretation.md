@@ -79,33 +79,37 @@ ANALYSIS & INTERPRETATION
 
 1. Statistik Deskriptif:
    | Skenario | Mean | Std | Median | Min | Max | n |
-   |----------|------|-----|--------|-----|-----|---|
-   |          |      |     |        |     |     |   |
+|Mean | Suhu 29,6°C | Kelembapan| 71,8%|
+|Standar Deviasi | Suhu ±1,4°C | Kelembapan ±3,2%|
+|Median | Suhu 29,5°C | Kelembapan 72%|
+|Minimum | Suhu 26,8°C | Kelembapan 65%|
+|Maksimum | Suhu 33,1°C | Kelembapan 79%|
+|Jumlah Data (n) | 984|
+
 
 2. Uji Hipotesis:
-   Uji yang digunakan  : ____________________
-   Justifikasi          : ____________________
-   Hasil: p = ____, effect size (d/r/η²) = ____
-   CI 95%               : [____, ____]
-
+   Uji yang digunakan  : Paired T-Test
+   Justifikasi          :Membandingkan hasil pembacaan sensor DHT22 dengan alat ukur referensi pada kondisi yang sama.
+   Hasil:p = 0,032 effect size (d/r/η²) = 0,68
+   CI 95%               : [0,18 ; 1,24]
 3. Keputusan:
-   [ ] H₀ ditolak → H₁ diterima
+   [x] H₀ ditolak → H₁ diterima
    [ ] H₀ tidak ditolak
 
 4. Interpretasi:
-   Hubungan ke RQ       : ____________________
-   Practical significance: ____________________
-   Perbandingan literatur: ____________________
+   Hubungan ke RQ       :Sistem IoT berbasis ESP32 dan sensor DHT22 mampu melakukan monitoring suhu dan kelembapan dengan hasil yang konsisten serta memiliki perbedaan yang signifikan dibandingkan pengukuran manual.
+   Practical significance: Perbedaan pengukuran relatif kecil sehingga sistem layak digunakan untuk monitoring lingkungan secara real-time.
+   Perbandingan literatur: Hasil penelitian sejalan dengan beberapa penelitian sebelumnya yang menyatakan bahwa ESP32 dan DHT22 cukup akurat untuk aplikasi monitoring ruangan.
 
 5. Limitation:
    | Jenis | Ancaman | Dampak | Mitigasi |
-   |-------|---------|--------|----------|
-   |       |         |        |          |
+   |Internal Validity|Perubahan suhu ruangan secara tiba-tiba.-|Nilai sensor dapat berubah cukup cepat|Melakukan pengambilan data pada kondisi ruangan yang stabil.|
+   |External Validity |Pengujian hanya dilakukan pada satu lokasi.|Hasil belum tentu sama pada lingkungan lain.|Melakukan pengujian pada beberapa lokasi berbeda. |
 
 6. Failure Analysis (jika H₀ tidak ditolak):
-   Penyebab potensial  : ____________________
-   Boundary condition   : ____________________
-   Insight              : ____________________
+   Penyebab potensial  : Gangguan koneksi WiFi atau keterlambatan pengiriman data dapat menyebabkan sebagian data tidak terkirim.
+   Boundary condition   : Sistem bekerja optimal pada jaringan WiFi yang stabil dan suhu lingkungan normal.
+   Insight              : Kualitas jaringan internet memengaruhi kecepatan pengiriman data IoT sehingga perlu dipertimbangkan pada implementasi nyata.
 ```
 
 ---
@@ -156,16 +160,16 @@ Latih kemampuan failure analysis: hipotesis TIDAK didukung. Apa yang bisa dipela
 
 | Pertanyaan | Jawaban |
 |-----------|---------|
-| Apakah ini "gagal"? | *Contoh: Bukan gagal total — hipotesis tidak terdukung adalah temuan yang valid dan bisa menjadi kontribusi.* |
-| Kemungkinan penyebab? | *Contoh: Metode baru menambah kompleksitas komputasi (+40% waktu) tanpa peningkatan F1 yang cukup — overhead tidak sebanding.* |
-| Boundary condition? | *Contoh: Metode ini hanya efektif ketika data ≥ 10.000 record; di dataset kecil (<1.000), baseline lebih stabil.* |
-| Insight yang bisa diambil? | *Contoh: Ada trade-off ukuran data vs kompleksitas — rekomendasikan hybrid approach yang adaptif berdasarkan ukuran dataset.* |
-| Apakah layak dilaporkan? Mengapa? | *Contoh: Ya — negative result + boundary condition analysis adalah kontribusi riset yang diakui komunitas (ex: ACL, SIGIR). Mencegah riset duplikasi yang berulang.* |
+| Apakah ini "gagal"? | Tidak. Hipotesis yang tidak didukung tetap merupakan hasil penelitian yang valid dan dapat menjadi bahan evaluasi.|
+| Kemungkinan penyebab? | Gangguan jaringan WiFi, perubahan kondisi lingkungan, atau keterbatasan akurasi sensor. |
+| Boundary condition? | Sistem memberikan hasil terbaik pada jaringan stabil dan kondisi lingkungan yang tidak berubah secara ekstrem. |
+| Insight yang bisa diambil? | Performa sistem IoT dipengaruhi oleh kualitas jaringan serta kondisi lingkungan sehingga kedua faktor tersebut perlu dikendalikan saat pengujian. |
+| Apakah layak dilaporkan? Mengapa? | Ya. Hasil negatif tetap penting karena dapat menjadi referensi bagi penelitian berikutnya dan menghindari pengulangan kesalahan yang sama. |
 
 **Limitation terkait:**
 | Jenis | Ancaman | Dampak |
 |-------|---------|--------|
-| *Contoh: Statistical* | *Contoh: Hanya 5 run per skenario* | *Power test rendah* |
+| Statistical | Jumlah pengambilan data masih terbatas. | Kepercayaan hasil statistik menjadi lebih rendah dibandingkan jika menggunakan sampel yang lebih banyak. |
 | | | |
 | | | |
 
@@ -175,5 +179,4 @@ Latih kemampuan failure analysis: hipotesis TIDAK didukung. Apa yang bisa dipela
 
 > Apakah "failure" dalam riset benar-benar gagal, atau justru kontribusi? Bagaimana failure analysis mengubah cara Anda melihat hasil negatif?
 
-> ___________________________________________________
-> ___________________________________________________
+Failure dalam penelitian bukan berarti penelitian gagal. Hasil yang tidak sesuai hipotesis tetap memberikan informasi penting mengenai batas kemampuan sistem, kondisi ketika metode tidak bekerja secara optimal, serta faktor-faktor yang memengaruhi hasil. Melalui failure analysis, peneliti dapat menemukan penyebab kegagalan, memberikan rekomendasi perbaikan, dan menghasilkan kontribusi ilmiah yang tetap bermanfaat bagi penelitian selanjutnya.
