@@ -73,32 +73,36 @@ Mengandalkan "install library terbaru" berbahaya: versi berbeda = perilaku berbe
 EXPERIMENT SETUP DOCUMENTATION
 
 Hardware:
-  CPU     : ____________________
-  RAM     : ____________________
-  GPU     : ____________________
-  Storage : ____________________
+  CPU     : Intel Core i5-12400
+  RAM     : 16 GB DDR4
+  Network : LAN 1 Gbps
+  Storage : SSD 512 GB
 
 Software:
-  OS        : ____________________
-  Runtime   : ____________________
-  Framework : ____________________
+  OS        : Windows 11 Pro 64-bit
+  Runtime   : Python 3.12
+  Framework : Eclipse Paho MQTT + Eclipse Mosquitto Broker
 
 Dependencies:
+
 | Library | Version | Sumber | Hash/Checksum |
 |---------|---------|--------|---------------|
-|         |         |        |               |
-|         |         |        |               |
+| paho-mqtt | 2.1.0 | PyPI | - |
+| pandas | 2.2.2 | PyPI | - |
+| numpy | 2.1.0 | PyPI | - |
+| matplotlib | 3.9.0 | PyPI | - |
+| psutil | 6.0.0 | PyPI | - |
 
 Konfigurasi:
-  Config file     : ____________________
-  Random seed     : ____________________
-  Hyperparameters : ____________________
+  Config file     : config.json
+  Random seed     : 42
+  Hyperparameters : Jumlah client (10, 50, 100), QoS 0, Payload 256 Byte
 
 Reproducibility Check:
-  [ ] Dependency terdokumentasi (requirements.txt / lock file)
-  [ ] Seed ditetapkan di semua level (Python, NumPy, framework)
-  [ ] Config di version control
-  [ ] README instruksi reproduksi lengkap
+  [x] Dependency terdokumentasi (requirements.txt / lock file)
+  [x] Seed ditetapkan di semua level
+  [x] Config di version control
+  [x] README instruksi reproduksi lengkap
 ```
 
 ---
@@ -109,23 +113,23 @@ Dokumentasikan environment untuk eksperimen Anda (boleh environment saat ini ata
 
 | Komponen | Spesifikasi |
 |----------|------------|
-| CPU | *Contoh: Intel Core i7-12700H, 14 Core* |
-| RAM | *Contoh: 32 GB DDR5* |
-| GPU | *Contoh: NVIDIA RTX 3060 6GB / CPU-only jika tidak ada GPU* |
-| OS | *Contoh: Ubuntu 22.04 LTS / Windows 11* |
-| Runtime | |
-| Framework | |
-| Random Seed | |
+| CPU | Amd Rayzen5 5560GT |
+| RAM | 16GB GDDR4 |
+| GPU |Rayzen RX 6600 8GB|
+| OS | Windows 11 |
+| Runtime | Python 3.12|
+| Framework | Eclipse Paho MQTT + Eclipse Mosquitto Broker|
+| Random Seed |42 |
 
 **Dependencies (minimal 5):**
 
 | Library | Version | Alasan Dibutuhkan |
 |---------|---------|-------------------|
-| *Contoh: scikit-learn* | *1.3.2* | *Klasifikasi + evaluasi metrik* |
-| | | |
-| | | |
-| | | |
-| | | |
+| paho-mqtt | 2.1.0 | Implementasi komunikasi MQTT |
+| pandas | 2.2.2 | Mengolah data hasil pengujian |
+| numpy | 2.1.0 | Perhitungan numerik |
+| matplotlib | 3.9.0 | Visualisasi grafik performa |
+| psutil | 6.0.0 | Monitoring penggunaan resource sistem |
 
 ---
 
@@ -135,25 +139,25 @@ Rancang tes repeatability sederhana: jalankan kode yang sama 3× di environment 
 
 | Run | Seed | Metrik Utama | Hasil Sama? |
 |-----|------|-------------|-------------|
-| 1 | *Contoh: 42* | *Contoh: Accuracy* | — |
-| 2 | | | [ ] Ya / [ ] Tidak |
-| 3 | | | [ ] Ya / [ ] Tidak |
+| 1 | 42 | Latency rata-rata | — |
+| 2 | 42 | Latency rata-rata | [x] Ya |
+| 3 | 42 | Latency rata-rata | [x] Ya |
 
 **Jika hasil berbeda, kemungkinan penyebab:**
 
 > Penyebab umum non-repeatability:
-> - **Thermal throttling** — CPU/GPU overheating pada run berturut-turut → clock speed turun → waktu eksekusi berubah
-> - **Background process** — antivirus scan, update OS, atau cloud sync aktif saat run berlangsung
-> - **Cache dari run sebelumnya** — hasil tersimpan di memori/disk sehingga run berikutnya tidak menjalankan komputasi penuh
-> - **Random state tidak dikontrol di semua level** — Python seed di-set, tapi NumPy/PyTorch/TensorFlow punya seed independen
+- Beban jaringan berubah selama pengujian.
+- Broker MQTT menerima trafik dari perangkat lain.
+- Background process pada sistem memengaruhi performa.
+- Random seed belum diterapkan secara konsisten.
+
 
 ___________________________________________________
 
-**Checklist kontrol yang sudah diterapkan:**
-- [ ] Random seed di-set di semua level
-- [ ] Tidak ada background process yang mengganggu
-- [ ] Cache dibersihkan antar-run
-- [ ] Config file yang sama untuk semua run
+- [x] Random seed di-set di semua level
+- [x] Tidak ada background process yang mengganggu
+- [x] Jaringan hanya digunakan untuk eksperimen
+- [x] Config file yang sama untuk semua run
 
 ---
 
@@ -162,33 +166,69 @@ ___________________________________________________
 Tulis README minimum untuk eksperimen Anda (6 komponen wajib).
 
 ```
-# Judul Eksperimen: ____________________
+# Judul Eksperimen: Analisis Performa Protokol MQTT pada Jaringan Internet of Things (IoT)
 
 ## 1. Environment
-> (Salin spesifikasi dari Latihan 1)
+
+- OS : Windows 11 Pro 64-bit
+- Runtime : Python 3.12
+- MQTT Broker : Eclipse Mosquitto
+- MQTT Client : Eclipse Paho MQTT
+- RAM : 16 GB DDR4
+- Network : LAN 1 Gbps
 
 ## 2. Installation
-> (Langkah instalasi, misal: "pip install -r requirements.txt")
+
+1. Install Python 3.12
+2. Install Eclipse Mosquitto Broker
+3. Install dependency:
+
+```bash
+pip install -r requirements.txt
+```
 
 ## 3. Data
-> (Deskripsi data: sumber, format, ukuran)
+
+Data diperoleh dari hasil komunikasi antara MQTT Client dan MQTT Broker berupa nilai latency, throughput, dan packet loss yang disimpan dalam format CSV.
 
 ## 4. Execution
-> (Command untuk menjalankan eksperimen)
+
+Jalankan broker terlebih dahulu kemudian jalankan publisher, subscriber, dan logger.
+
+```bash
+python publisher.py
+python subscriber.py
+python logger.py
+```
 
 ## 5. Configuration
-> (File config yang digunakan + parameter kunci)
+
+Seluruh parameter eksperimen disimpan pada file **config.json**, meliputi:
+
+- Jumlah client
+- QoS
+- Payload Size
+- Jumlah pengiriman pesan
 
 ## 6. Expected Output
-> (Contoh output yang diharapkan + format)
+
+Eksperimen menghasilkan:
+
+- File CSV hasil pengukuran
+- Nilai Latency (ms)
+- Throughput (Mbps)
+- Packet Loss (%)
+- Grafik performa MQTT
 ```
 
 ---
 
 ## Refleksi
 
-> Apakah eksperimen Anda saat ini bisa direproduksi oleh orang lain tanpa bantuan Anda? Komponen apa yang masih hilang?
+>Apakah eksperimen Anda saat ini bisa direproduksi oleh orang lain tanpa bantuan Anda?
 
-**Level saat ini:** [ ] Repeatability / [ ] Reproducibility / [ ] Belum keduanya
+**Level saat ini:** [ ] Repeatability / [x] Reproducibility / [ ] Belum keduanya
+
 **Komponen yang belum terdokumentasi:**
-> ___________________________________________________
+
+Dokumentasi topologi jaringan, contoh file **config.json**, serta langkah konfigurasi Mosquitto Broker agar peneliti lain dapat mereplikasi eksperimen dengan hasil yang serupa.
