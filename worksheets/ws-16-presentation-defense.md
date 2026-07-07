@@ -86,26 +86,27 @@ Prediksi pertanyaan berdasarkan kategori:
 DEFENSE PREPARATION
 
 Slide Deck Plan:
-  Total slides   : ____ (target: 10-12 konten + title/closing)
+  Total slides   : 9 (target: 10-12 konten + title/closing)
   Time per slide : ~2 min
-  Total time     : ____ menit
+  Total time     : 15 menit
 
 Slide Outline:
 | # | Pesan Utama | Visual | Waktu |
 |---|-------------|--------|-------|
-| 1 | Title       |        | 30s   |
-| 2 | Problem     |        | 2min  |
-| 3 | Gap + RQ    |        | 2min  |
-| ..|             |        |       |
+| 1 | Title       |Judul penelitian dan gambar ilustrasi sistem IoT | 1 menit   |
+| 2 | Problem     | Diagram perkembangan Internet of Things| 2min  |
+| 3 | Gap + RQ    | Diagram alur penelitian | 2min  |
+| 4|Metode Penelitian|  Diagram blok ESP32, Sensor DHT22, WiFi, dan Dashboard     |  2 menit     |
+|5| Hasil Pengujian|Tabel hasil pengujian suhu dan kelembapan|2 menit|
 
 Anticipatory Defense Matrix:
 | Kategori | Pertanyaan Potensial | Jawaban (CER) |
 |----------|---------------------|---------------|
-| Problem  |                     |               |
-| Gap      |                     |               |
-| Method   |                     |               |
-| Results  |                     |               |
-| Generalization |               |               |
+| Problem  |Mengapa memilih IoT untuk monitoring suhu dan kelembapan?|IoT memungkinkan pemantauan secara real-time,Data sensor dapat dikirim melalui WiFi ke dashboard secara langsung,Monitoring menjadi lebih cepat dan efisien dibanding cara manual.|
+| Gap      |Mengapa menggunakan ESP32 dan DHT22? |  ESP32 memiliki WiFi bawaan dan DHT22 memiliki akurasi yang baik.ESP32 mudah terhubung ke internet dan DHT22 mampu mengukur suhu serta kelembapan dengan stabil.Kombinasi keduanya sesuai untuk sistem monitoring IoT.|
+| Method   | Bagaimana memastikan data sensor akurat? | Pengujian dilakukan berulang pada kondisi yang sama.Hasil pembacaan sensor relatif konsisten pada setiap pengujian.Konsistensi menunjukkan sistem bekerja dengan baik.|
+| Results  | Mengapa terjadi sedikit perbedaan hasil pengukuran?    |  Sensor memiliki toleransi pembacaan.Perbedaan masih berada dalam batas spesifikasi sensor DHT22.Perbedaan tersebut masih dapat diterima dalam penelitian. |
+| Generalization |Apakah sistem dapat digunakan pada lingkungan lain?|  Ya, dengan sedikit penyesuaian konfigurasi.ESP32 dapat digunakan pada berbagai jaringan WiFi dan lokasi.Sistem memiliki fleksibilitas untuk dikembangkan lebih lanjut. |
 
 Latihan:
   Latihan 1: [tanggal] — [catatan timing & feedback]
@@ -121,9 +122,9 @@ Rencanakan presentasi 15 menit untuk riset Anda.
 
 | # | Pesan Utama | Visual yang Digunakan | Waktu |
 |---|-------------|----------------------|-------|
-| 1 | *Contoh: Judul + konteks — rekomendasi vs kepuasan* | *Title slide, gambar sistem* | *1 min* |
-| 2 | *Contoh: Problem — RMSE tinggi tapi satisfaction rendah (45/100)* | *Bar chart: satisfaction vs RMSE per sistem* | *2 min* |
-| 3 | *Contoh: Gap + RQ — belum ada CF+context untuk satisfaction* | *Tabel gap literatur* | *1.5 min* |
+| 1 | Mengapa menggunakan sensor DHT22 dibanding DHT11? | Karena DHT22 memiliki rentang pengukuran dan tingkat akurasi yang lebih baik dibanding DHT11. | *1 min* |
+| 2 | Bagaimana jika koneksi WiFi terputus? | Data tidak dapat dikirim ke dashboard, namun ESP32 tetap dapat membaca data sensor hingga koneksi kembali normal. | *2 min* |
+| 3 | Apa pengembangan yang dapat dilakukan pada penelitian ini? | Menambahkan sensor lain seperti MQ-2, BMP280, atau membuat notifikasi otomatis melalui Telegram atau WhatsApp. | *1.5 min* |
 | 4 | | | |
 | 5 | | | |
 | 6 | | | |
@@ -155,14 +156,14 @@ Minta teman/kolega mengajukan 3 pertanyaan tentang riset Anda. Catat pertanyaan 
 
 | # | Pertanyaan | Jawaban Saya | Evaluasi |
 |---|-----------|-------------|---------|| *1* | *Contoh: "Mengapa tidak membandingkan dengan metode Y?"* | *Contoh: "Karena Y memerlukan dataset labeled yang tidak tersedia. Disebutkan sebagai limitasi di halaman X."* | *[✓] Direct [✓] Data-based [✓] Honest* || 1 | | | [ ] Direct [ ] Data-based [ ] Honest |
-| 2 | | | [ ] Direct [ ] Data-based [ ] Honest |
+| 2 |Bagaimana jika jaringan internet terputus? |Data tidak dapat dikirim ke server hingga koneksi kembali normal. Pengembangan selanjutnya dapat menamba | [✓ ] Direct [✓ ] Data-based [✓ ] Honest |
 | 3 | | | [ ] Direct [ ] Data-based [ ] Honest |
 
 **Pertanyaan yang paling sulit dijawab:**
-> ___________________________________________________
+Bagaimana jika sistem digunakan pada lingkungan dengan suhu dan kelembapan yang ekstrem?
 
 **Apa yang perlu disiapkan lebih baik:**
-> ___________________________________________________
+>Menambah referensi penelitian, melakukan pengujian pada lebih banyak kondisi lingkungan, serta menyiapkan data pembanding dari sensor lain.
 
 ---
 
@@ -171,7 +172,6 @@ Minta teman/kolega mengajukan 3 pertanyaan tentang riset Anda. Catat pertanyaan 
 > Dari seluruh proses WS-01 sampai WS-16 — dari paradigma riset hingga presentasi — bagian mana yang paling mengubah cara Anda berpikir tentang riset? Apa satu hal yang akan selalu Anda terapkan di riset berikutnya?
 
 **Insight terbesar:**
-> ___________________________________________________
-
+Saya memahami bahwa penelitian bukan hanya membuat sistem yang bekerja, tetapi juga membuktikan hasilnya melalui metode ilmiah, pengujian yang terstruktur, serta analisis yang dapat dipertanggungjawabkan.
 **Yang akan selalu diterapkan:**
-> ___________________________________________________
+>Selalu menyusun research question yang jelas, menentukan variabel dan metrik sejak awal, mendokumentasikan seluruh proses penelitian, serta melakukan pengujian secara berulang agar hasil penelitian lebih valid dan mudah direproduksi.
