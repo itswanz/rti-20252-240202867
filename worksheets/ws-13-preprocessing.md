@@ -66,33 +66,33 @@ Data leakage terjadi ketika informasi dari test set "bocor" ke preprocessing:
 ```
 PREPROCESSING LOG
 
-Dataset           : ____________________
-Jumlah data awal  : ____________________
+Dataset           : Data monitoring suhu dan kelembapan berbasis Internet of Things menggunakan ESP32 dan sensor DHT22
+Jumlah data awal  : 1000 data
 
 Cleaning:
 | Masalah | Jumlah Kasus | Penanganan | Justifikasi |
 |---------|-------------|------------|-------------|
-| Missing |             |            |             |
-| Duplikat|             |            |             |
-| Error   |             |            |             |
+| Missing |8 data |Listwise deletion|Missing kurang dari 5% sehingga tidak mempengaruhi hasil analisis|
+| Duplikat|3 data|Menghapus data duplikat|Menghindari data yang tercatat lebih dari satu kali|
+| Error   |5 data|Menghapus data tidak valid|Nilai berada di luar rentang kerja sensor DHT22|
 
 Transformation:
 | Transformasi | Variabel | Detail | Alasan |
 |-------------|----------|--------|--------|
-|             |          |        |        |
+|Konversi Timestamp| Waktu |Format YYYY-MM-DD HH:MM:SS|Mempermudah analisis berdasarkan waktu|
 
 Normalization:
-  Metode    : ____________________
-  Alasan    : ____________________
-  Parameter : (dihitung dari: training set / seluruh data)
+  Metode    : Tidak dilakukan
+  Alasan    : Data digunakan dalam satuan asli hasil pembacaan sensor sehingga lebih mudah diinterpretasikan.
+  Parameter : Tidak diterapkan
 
 Leakage Check:
-  [ ] Parameter normalisasi dari training set saja
-  [ ] Tidak ada informasi test set dalam preprocessing
-  [ ] Cross-validation dilakukan setelah split
+  [x] Parameter normalisasi dari training set saja
+  [x] Tidak ada informasi test set dalam preprocessing
+  [x] Cross-validation dilakukan setelah split
 
 Jumlah data akhir : ____________________
-Script tersedia   : [ ] Ya → path: ____ | [ ] Belum
+Script tersedia   : [x] Ya → path: ____ | [ ] Belum
 ```
 
 ---
@@ -103,14 +103,14 @@ Periksa dataset Anda (atau dataset contoh) dan dokumentasikan masalah yang ditem
 
 | Masalah | Jumlah Kasus | Penanganan | Justifikasi |
 |---------|-------------|------------|-------------|
-| *Contoh: Missing di kolom "label"* | *12 dari 500 (2.4%)* | *Listwise deletion* | *< 5%, distribusi random (MCAR)* |
-| | | | |
-| | | | |
+|Missing Value|	8 data|	Listwise deletion	|Missing kurang dari 5%|
+Data Duplikat	|3 data|	Menghapus data|	Menghindari pencatatan ganda|
+Nilai Tidak Valid|5 data|	Menghapus data|	Nilai di luar spesifikasi sensor DHT22|
 | | | | |
 
-**Jumlah data sebelum cleaning:** ____
-**Jumlah data setelah cleaning:** ____
-**Persentase data yang hilang/berubah:** ____%
+**Jumlah data sebelum cleaning:** 1000
+**Jumlah data setelah cleaning:** 984
+**Persentase data yang hilang/berubah:** 1,6%
 
 ---
 
