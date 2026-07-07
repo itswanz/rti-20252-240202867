@@ -84,28 +84,28 @@ Metrik-X     ✗      ✗       ✓ ←     ✗        ✗
 ```
 PAPER STRUCTURE CHECKLIST
 
-Title   : ____________________
-Target  : [ ] Jurnal  [ ] Konferensi  [ ] Laporan
+Title   : Rancang Bangun Sistem Monitoring Suhu dan Kelembapan Berbasis IoT Menggunakan ESP32 dan Sensor DHT22
+Target  : [ ] Jurnal  [ ] Konferensi  [x] Laporan
 
 Section Check:
-  [ ] Abstract — masalah, metode, hasil utama, kontribusi (max 250 kata)
-  [ ] Introduction — konteks → gap → RQ → kontribusi → struktur paper
-  [ ] Related Work — concept-centric, gap positioning
-  [ ] Method — reproducible: desain, variabel, metrik, setup, prosedur
-  [ ] Results — tabel + grafik + observasi (tanpa interpretasi)
-  [ ] Discussion — interpretasi, perbandingan, implikasi, limitation
-  [ ] Conclusion — jawaban RQ, kontribusi, future work
+  [ x] Abstract — masalah, metode, hasil utama, kontribusi (max 250 kata)
+  [ x] Introduction — konteks → gap → RQ → kontribusi → struktur paper
+  [ x] Related Work — concept-centric, gap positioning
+  [ x] Method — reproducible: desain, variabel, metrik, setup, prosedur
+  [ x] Results — tabel + grafik + observasi (tanpa interpretasi)
+  [x ] Discussion — interpretasi, perbandingan, implikasi, limitation
+  [ x] Conclusion — jawaban RQ, kontribusi, future work
 
 Consistency Matrix:
-  [ ] RQ di Introduction = RQ di Method = RQ di Conclusion
-  [ ] Variabel di Method = variabel di Results
-  [ ] Klaim di Discussion didukung data di Results
-  [ ] Limitasi di Discussion di-address di Conclusion/Future Work
+  [x ] RQ di Introduction = RQ di Method = RQ di Conclusion
+  [x ] Variabel di Method = variabel di Results
+  [ x] Klaim di Discussion didukung data di Results
+  [ x] Limitasi di Discussion di-address di Conclusion/Future Work
 
 Writing Quality:
-  [ ] Clarity — mudah dipahami tanpa re-read
-  [ ] Precision — tidak ada istilah ambigu
-  [ ] Conciseness — tidak ada kalimat redundan
+  [ x] Clarity — mudah dipahami tanpa re-read
+  [x ] Precision — tidak ada istilah ambigu
+  [ x] Conciseness — tidak ada kalimat redundan
 ```
 
 ---
@@ -116,8 +116,8 @@ Buat outline paper untuk riset Anda menggunakan struktur IMRAD.
 
 | Section | Konten Utama (2-3 kalimat) | Target Kata |
 |---------|---------------------------|------------|
-| Abstract | *Contoh: Sistem rekomendasi memiliki akurasi tinggi tapi satisfaction rendah. Studi ini menguji CF+context signal. Hasil: satisfaction naik 38% tanpa penurunan RMSE signifikan.* | 200-250 |
-| Introduction | *Contoh: Konteks: gap antara akurasi dan kepuasan pengguna. Gap: tidak ada studi yang mengkombinasikan CF+context. RQ: apakah CF+context meningkatkan satisfaction?* | 500-700 |
+| Abstract | Penelitian ini merancang sistem monitoring suhu dan kelembapan berbasis Internet of Things menggunakan ESP32 dan sensor DHT22. Sistem mampu mengirimkan data secara real-time melalui jaringan internet sehingga kondisi lingkungan dapat dipantau dengan mudah. Hasil pengujian menunjukkan sistem bekerja dengan baik dan memiliki tingkat kestabilan yang tinggi. | 200-250 |
+| Introduction | Internet of Things memungkinkan perangkat saling terhubung melalui internet untuk melakukan monitoring secara otomatis. Salah satu penerapannya adalah monitoring suhu dan kelembapan ruangan. Penelitian ini bertujuan merancang sistem monitoring berbasis ESP32 dan sensor DHT22 yang mampu mengirimkan data secara real-time serta mengevaluasi performa sistem tersebut. | 500-700 |
 | Related Work | | 700-1000 |
 | Method | | 800-1200 |
 | Results | | 500-800 |
@@ -134,20 +134,20 @@ Buat consistency matrix untuk memverifikasi internal consistency paper Anda.
 |--|-------|--------|--------|-----------|-----------|
 | *Contoh: RQ1* | *✓* | *✓* | *✓* | *✓* | *✓* |
 | *Contoh: Metrik-X* | *✗ ←* | *✗ ←* | *✓* | *✗ ←* | *✗ ←* |
-| RQ1 | | | | | |
-| RQ2 | | | | | |
-| Metrik utama | | | | | |
-| Variabel IV | | | | | |
-| Variabel DV | | | | | |
-| Klaim/kontribusi | | | | | |
+| RQ1 |✓ | ✓| ✓|✓|✓ |
+| RQ2 |✓  |✓ |✓ |✓ |✓|
+| Metrik utama |✓ |✓ |✓ |✓ |✓ |
+| Variabel IV |✓ |✓ |✓ |✓ |✓ |
+| Variabel DV | ✓|✓ |✓ |✓ |✓ |
+| Klaim/kontribusi | ✓| ✓| ✓|✓ |✓ |
 
 **Isi setiap sel:** ✓ (ada & konsisten), ✗ (missing), ~ (ada tapi inkonsisten)
 
 **Inkonsistensi yang ditemukan:**
-> ___________________________________________________
+> Tidak ditemukan inkonsistensi. Semua bagian menggunakan istilah, variabel, dan tujuan penelitian yang sama.
 
 **Tindakan perbaikan:**
-> ___________________________________________________
+> Menjaga konsistensi istilah, nama variabel, dan metrik pada seluruh bagian laporan sehingga tidak terjadi perubahan makna.
 
 ---
 
@@ -156,13 +156,13 @@ Buat consistency matrix untuk memverifikasi internal consistency paper Anda.
 Ambil satu paragraf dari tulisan Anda (atau tulis paragraf baru) dan evaluasi kualitasnya.
 
 **Paragraf asli:**
-> (tempel paragraf Anda di sini)
+Sistem monitoring berbasis IoT dibuat menggunakan ESP32 dan sensor DHT22. Sistem ini dapat membaca suhu dan kelembapan kemudian mengirimkan data ke internet sehingga pengguna dapat melihat kondisi lingkungan secara real-time.
 
 | Kriteria | Evaluasi | Perbaikan |
 |----------|---------|-----------|
-| Clarity | *Contoh: kalimat ke-3 ambigu — "performa" bisa berarti accuracy atau speed* | *Ubah menjadi: "accuracy meningkat..."* |
-| Precision | | |
-| Conciseness | | |
+| Clarity | Kalimat sudah mudah dipahami, namun dapat dibuat lebih spesifik. | Menambahkan informasi mengenai fungsi sistem secara lebih jelas. |
+| Precision |Istilah "internet" diperjelas menjadi platform monitoring IoT.| Menggunakan istilah teknis yang lebih tepat.|
+| Conciseness |Tidak terdapat kalimat yang berulang sehingga paragraf sudah cukup ringkas. |Sistem monitoring berbasis Internet of Things menggunakan ESP32 dan sensor DHT22 dirancang untuk mengukur suhu dan kelembapan ruangan secara real-time. Data hasil pembacaan sensor dikirim melalui jaringan WiFi menuju platform monitoring sehingga pengguna dapat memantau kondisi lingkungan secara cepat dan akurat.|
 
 **Paragraf setelah perbaikan:**
 > (tulis paragraf yang sudah diperbaiki)
@@ -173,5 +173,4 @@ Ambil satu paragraf dari tulisan Anda (atau tulis paragraf baru) dan evaluasi ku
 
 > Apa perbedaan antara menulis "tentang" riset dan menulis sebagai "argumen" riset? Bagaimana urutan penulisan (Method → Discussion → Introduction) mengubah kualitas tulisan?
 
-> ___________________________________________________
-> ___________________________________________________
+> Menulis tentang riset hanya menjelaskan apa yang dilakukan selama penelitian, sedangkan menulis sebagai argumen riset bertujuan meyakinkan pembaca bahwa metode yang digunakan mampu menjawab research question berdasarkan bukti yang diperoleh. Menulis dimulai dari Method, kemudian Results dan Discussion, lalu Introduction membuat isi pendahuluan menjadi lebih sesuai dengan hasil penelitian sehingga alur penulisan menjadi lebih logis, konsisten, dan mudah dipahami.
